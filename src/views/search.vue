@@ -1,9 +1,11 @@
 <template>
-  <div>demo</div>
+  <div>search</div>
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'search'
+}
 </script>
 
 <style></style>

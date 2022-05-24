@@ -1,12 +1,15 @@
 <template>
   <my-header></my-header>
+  <tab></tab>
   <router-view />
 </template>
 <script>
-import header from '@/components/header/header'
+import Header from '@/components/header/header'
+import Tab from '@/components/tab/tab.vue'
 export default {
   components: {
-    MyHeader: header
+    MyHeader: Header,
+    Tab
   }
 }
 </script>
