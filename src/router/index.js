@@ -3,27 +3,36 @@ import Recommend from '@/views/recommend'
 import Singer from '@/views/singer'
 import Search from '@/views/search'
 import TopList from '@/views/top-list'
+
 const routes = [
   {
-    name: '/recommend',
+    path: '/',
+    redirect: '/recommend'
+  },
+  {
+    path: '/recommend',
     component: Recommend
   },
   {
-    name: '/singer',
+    path: '/singer',
     component: Singer
   },
   {
-    name: '/search',
+    path: '/search',
     component: Search
   },
   {
-    name: '/top-list',
+    path: '/top-list',
     component: TopList
+  },
+  {
+    path: '/user',
+    components: TopList
   }
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes
 })
 

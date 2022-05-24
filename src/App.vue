@@ -1,14 +1,14 @@
 <template>
   <my-header></my-header>
   <tab></tab>
-  <router-view />
+  <router-view></router-view>
 </template>
 <script>
-import Header from '@/components/header/header'
-import Tab from '@/components/tab/tab.vue'
+import MyHeader from '@/components/header/header'
+import Tab from '@/components/tab/tab'
 export default {
   components: {
-    MyHeader: Header,
+    MyHeader: MyHeader,
     Tab
   }
 }
