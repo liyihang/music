@@ -69,7 +69,8 @@ export default {
     }
   }
   .dots-wrapper {
-    position: absolute;
+    // position: absolute;
+    position: relative;
     left: 50%;
     bottom: 12px;
     line-height: 12px;
