@@ -1,8 +1,26 @@
 <template>
   <div class="recommend">
-    <div class="slider-wrapper">
-      <div class="slider-content">
-        <slider v-if="sliders.length" :sliders="sliders"></slider>
+    <div class="recommend-content">
+      <div>
+        <div class="slider-wrapper">
+          <div class="slider-content">
+            <slider v-if="sliders.length" :sliders="sliders"></slider>
+          </div>
+        </div>
+        <div class="recommend-list">
+          <h1 class="list-title">热门歌单推荐</h1>
+          <ul>
+            <li v-for="item in albums" :key="item.id" class="item">
+              <div class="icon">
+                <img height="60" width="60" :src="item.pic" alt="" />
+              </div>
+              <div class="text">
+                <h2 class="name">{{ item.username }}</h2>
+                <p class="title">{{ item.title }}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -18,13 +36,15 @@ export default {
   },
   data() {
     return {
-      sliders: []
+      sliders: [],
+      albums: []
     }
   },
   async created() {
     const result = await getRecommend()
     // console.log(result)
     this.sliders = result.sliders
+    this.albums = result.albums
   }
 }
 </script>
@@ -36,15 +56,18 @@ export default {
   top: 88px;
   bottom: 0;
   overflow: scroll;
+
   .recommend-content {
     height: 100%;
     overflow: hidden;
+
     .slider-wrapper {
       position: relative;
       width: 100%;
       height: 0;
       padding-top: 40%;
       overflow: hidden;
+
       .slider-content {
         position: absolute;
         left: 0;
@@ -53,6 +76,7 @@ export default {
         height: 100%;
       }
     }
+
     .recommend-list {
       .list-title {
         height: 65px;
@@ -61,6 +85,7 @@ export default {
         font-size: $font-size-medium;
         color: $color-theme;
       }
+
       .item {
         display: flex;
         box-sizing: border-box;
@@ -72,19 +97,23 @@ export default {
           width: 60px;
           padding-right: 20px;
         }
+
         .text {
           display: flex;
           flex-direction: column;
-          justify-content: center;
-          flex: 1;
+          // justify-content: center;
+          // flex: 1;
           line-height: 20px;
           overflow: hidden;
           font-size: $font-size-medium;
         }
+
         .name {
+          display: flex;
           margin-bottom: 10px;
           color: $color-text;
         }
+
         .title {
           color: $color-text-d;
         }
