@@ -1,6 +1,6 @@
 <template>
   <div class="recommend">
-    <div class="recommend-content">
+    <scroll class="recommend-content">
       <div>
         <div class="slider-wrapper">
           <div class="slider-content">
@@ -22,17 +22,19 @@
           </ul>
         </div>
       </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
 <script>
 import { getRecommend } from '@/service/recommend'
 import Slider from '@/components/base/slider/slider'
+import Scroll from '@/components/base/scroll/scroll'
 export default {
   name: 'recommend',
   components: {
-    Slider
+    Slider,
+    Scroll
   },
   data() {
     return {

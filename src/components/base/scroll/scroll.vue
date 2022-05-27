@@ -15,9 +15,9 @@ export default {
       default: true
     }
   },
-  setup() {
+  setup(props) {
     const rootRef = ref(null)
-    useScroll(rootRef)
+    useScroll(rootRef, props)
     return {
       rootRef
     }

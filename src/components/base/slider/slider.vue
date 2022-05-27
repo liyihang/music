@@ -32,9 +32,8 @@ export default {
   },
   setup() {
     const rootRef = ref(null)
+    // leave a bug
     const { currentPageIndex } = useSlider(rootRef)
-    console.log(currentPageIndex)
-
     return {
       rootRef,
       currentPageIndex
