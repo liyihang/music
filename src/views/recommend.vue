@@ -12,7 +12,7 @@
           <ul>
             <li v-for="item in albums" :key="item.id" class="item">
               <div class="icon">
-                <img height="60" width="60" :src="item.pic" alt="" />
+                <img height="60" width="60" v-lazy="item.pic" alt="" />
               </div>
               <div class="text">
                 <h2 class="name">{{ item.username }}</h2>
