@@ -6,7 +6,7 @@
         <ul>
           <li v-for="item in group.list" :key="item.id" class="item">
             <img class="avatar" v-lazy="item.pic">
-            <span>{{ item.name }}</span>
+            <span class="name">{{ item.name }}</span>
           </li>
         </ul>
       </li>
