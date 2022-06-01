@@ -11,8 +11,17 @@
         </ul>
       </li>
     </ul>
-    <div class="fixed">
+    <div class="fixed" :style="fixedStyle">
       <div class="fixed-title">{{ fixedTitle }}</div>
+    </div>
+    <div class="shortcut" @touchstart.stop.prevent="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove"
+      @touchend.stop.prevent>
+      <ul>
+        <li v-for="(item, index) in shortcutList" :key="item" :data-index="index" class="item"
+          :class="{ 'current': currentIndex === index }">
+          {{ item }}
+        </li>
+      </ul>
     </div>
   </scroll>
 </template>
@@ -20,6 +29,7 @@
 <script>
 import Scroll from '@/components/base/scroll/scroll.vue'
 import useFixed from './use-fixed'
+import useShortcut from './useShortcut'
 export default {
   name: 'index-list',
   components: {
@@ -34,7 +44,14 @@ export default {
     }
   },
   setup(props) {
-    const { groupRef } = useFixed(props)
+    const { groupRef, fixedTitle, fixedStyle } = useFixed(props)
+    const { shortcutList } = useShortcut(props)
+    return {
+      groupRef,
+      fixedTitle,
+      fixedStyle,
+      shortcutList
+    }
   }
 }
 </script>

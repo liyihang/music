@@ -1,8 +1,32 @@
-import { nextTick, ref, watch } from 'vue'
+import { nextTick, ref, watch, computed } from 'vue'
 
 export default function useFixed(props) {
   const groupRef = ref(null)
-  const listHeight = ref([])
+  const listHeights = ref([])
+  const scrollY = ref(0)
+  const currentIndex = ref(0)
+  const distance = ref(0)
+  const TITLE_HEIGHT = 0
+
+  const fixedTitle = computed(() => {
+    if (scrollY.value < 0) {
+      return ''
+    }
+    const currentGroup = props.data[currentIndex.value]
+    return currentGroup ? currentGroup.title : ''
+  })
+
+  const fixedStyle = computed(() => {
+    const distanceVal = distance.value
+    const diff =
+      distanceVal > 0 && distanceVal < TITLE_HEIGHT
+        ? distanceVal - TITLE_HEIGHT
+        : 0
+    return {
+      transform: `translate3d(0,${diff}px,0)`
+    }
+  })
+  // calculate the title index
   watch(
     () => props.data,
     async () => {
@@ -10,9 +34,21 @@ export default function useFixed(props) {
       calculate()
     }
   )
+
+  watch(scrollY, (newY) => {
+    const listHeightsVal = listHeights.value
+    for (let i = 0; i < listHeightsVal.length - 1; i++) {
+      const heightTop = listHeightsVal[i]
+      const heightBottom = listHeightsVal[i + 1]
+      if (newY >= heightTop && newY <= heightBottom) {
+        currentIndex.value = i
+        distance.value = heightBottom - newY
+      }
+    }
+  })
   function calculate() {
     const list = groupRef.value.children
-    const listHeightVal = listHeight.value
+    const listHeightVal = listHeights.value
     let height = 0
     listHeightVal.length = 0
     listHeightVal.push(height)
@@ -21,7 +57,14 @@ export default function useFixed(props) {
       listHeightVal.push(height)
     }
   }
+  function onScroll(pos) {
+    scrollY.value = -pos.y
+  }
   return {
-    groupRef
+    groupRef,
+    fixedTitle,
+    fixedStyle,
+    currentIndex,
+    onScroll
   }
 }
