@@ -1,5 +1,5 @@
 <template>
-  <scroll class="index-list">
+  <scroll class="index-list" :probe-type="3" @scroll="onScroll" ref="scrollRef">
     <ul ref="groupRef">
       <li v-for="group in data" :key="group.title" class="group">
         <h2 class="title">{{ group.title }}</h2>
@@ -45,12 +45,14 @@ export default {
   },
   setup(props) {
     const { groupRef, fixedTitle, fixedStyle } = useFixed(props)
-    const { shortcutList } = useShortcut(props)
+    const { shortcutList, scrollRef, onShortcutTouchStart } = useShortcut(props, groupRef)
     return {
       groupRef,
       fixedTitle,
       fixedStyle,
-      shortcutList
+      shortcutList,
+      scrollRef,
+      onShortcutTouchStart
     }
   }
 }
