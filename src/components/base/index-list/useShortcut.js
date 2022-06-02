@@ -23,7 +23,7 @@ export default function useShortcut(props, groupRef) {
   // touch move
   function onShortcutTouchMove(e) {
     touch.y2 = e.touches[0].pageY
-    const delta = ((touch.y1 - touch.y2) / ANCHOR_HEIGHT) | 0
+    const delta = ((touch.y2 - touch.y1) / ANCHOR_HEIGHT) | 0
     const anchorIndex = touch.anchorIndex + delta
     scrollTo(anchorIndex)
   }
@@ -42,7 +42,6 @@ export default function useShortcut(props, groupRef) {
     scrollRef,
     shortcutList,
     onShortcutTouchStart,
-    onShortcutTouchMove,
-    scrollTo
+    onShortcutTouchMove
   }
 }
