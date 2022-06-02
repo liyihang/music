@@ -44,15 +44,18 @@ export default {
     }
   },
   setup(props) {
-    const { groupRef, fixedTitle, fixedStyle } = useFixed(props)
-    const { shortcutList, scrollRef, onShortcutTouchStart } = useShortcut(props, groupRef)
+    const { groupRef, fixedTitle, fixedStyle, currentIndex, onScroll } = useFixed(props)
+    const { shortcutList, scrollRef, onShortcutTouchStart, onShortcutTouchMove } = useShortcut(props, groupRef)
     return {
       groupRef,
       fixedTitle,
       fixedStyle,
       shortcutList,
       scrollRef,
-      onShortcutTouchStart
+      currentIndex,
+      onScroll,
+      onShortcutTouchStart,
+      onShortcutTouchMove
     }
   }
 }
