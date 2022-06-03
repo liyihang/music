@@ -1,7 +1,7 @@
 <template>
   <div class="singer" v-loading="!result.length">
     <index-list :data="result" @select="selectSinger"></index-list>
-    <router-view></router-view>
+    <router-view :singer="selectedSinger"></router-view>
   </div>
 </template>
 
@@ -26,6 +26,9 @@ export default {
   methods: {
     selectSinger(singer) {
       this.selectedSinger = singer
+      this.$router.push({
+        path: `/singer/${singer.mid}`
+      })
     }
   }
 }
