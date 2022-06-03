@@ -4,8 +4,9 @@
 
 <script>
 export default {
-  name: 'toplist'
+  name: 'top-list'
 }
 </script>
 
-<style></style>
+<style>
+</style>

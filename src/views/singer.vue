@@ -1,6 +1,7 @@
 <template>
   <div class="singer" v-loading="!result.length">
-    <index-list :data="result"></index-list>
+    <index-list :data="result" @select="selectSinger"></index-list>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -11,7 +12,8 @@ export default {
   name: 'singer',
   data() {
     return {
-      result: []
+      result: [],
+      selectedSinger: null
     }
   },
   components: {
@@ -20,6 +22,11 @@ export default {
   async created() {
     const result = await getSingerList()
     this.result = result.singers
+  },
+  methods: {
+    selectSinger(singer) {
+      this.selectedSinger = singer
+    }
   }
 }
 </script>
