@@ -4,10 +4,10 @@
       <i class="icon-back"></i>
     </div>
     <h1 class="title"> {{ title }}</h1>
-    <div class="bg-image" :style="bgImageStyle">
+    <div class="bg-image" :style="bgImageStyle" ref="bgImage">
       <div class="filter"></div>
     </div>
-    <scroll class="list">
+    <scroll class="list" :style="scrollStyle">
       <div class="song-list-wrapper">
         <song-list :songs="songs"></song-list>
       </div>
@@ -33,10 +33,23 @@ export default {
     title: String,
     pic: String
   },
+  data() {
+    return {
+      imageHeigth: 0
+    }
+  },
+  mounted() {
+    this.imageHeigth = this.$refs.bgImage.clientHeight
+  },
   computed: {
     bgImageStyle() {
       return {
         backgroundImage: `url(${this.pic})`
+      }
+    },
+    scrollStyle() {
+      return {
+        top: `${this.imageHeigth}px`
       }
     }
   }
