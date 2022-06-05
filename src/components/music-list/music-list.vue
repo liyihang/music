@@ -40,6 +40,7 @@ export default {
   },
   mounted() {
     this.imageHeigth = this.$refs.bgImage.clientHeight
+    console.log(this.imageHeigth)
   },
   computed: {
     bgImageStyle() {
@@ -93,6 +94,7 @@ export default {
   .bg-image {
     position: relative;
     width: 100%;
+    height: 300px;
     transform-origin: top;
     background-size: cover;
 
