@@ -39,10 +39,7 @@ export default {
       imageHeigth: 0
     }
   },
-  mounted() {
-    this.imageHeight = this.$refs.bgImage.clientHeight
-    console.log(this.imageHeigth)
-  },
+
   computed: {
     bgImageStyle() {
       return {
@@ -54,6 +51,10 @@ export default {
         top: `${this.imageHeigth}px`
       }
     }
+  },
+  mounted() {
+    this.imageHeight = this.$refs.bgImage.clientHeight
+    console.log(this.imageHeigth)
   },
   methods: {
     goback() {
