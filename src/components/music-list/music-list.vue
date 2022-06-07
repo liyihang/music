@@ -39,6 +39,7 @@ export default {
     const bgImage = ref(null)
     const title1 = reactive(props.title)
     const pic1 = reactive(props.pic)
+    const imageHeight = ref(0)
     onMounted(() => {
       console.log(bgImage.value)
     })
@@ -47,11 +48,17 @@ export default {
         backgroundImage: `url(${pic1})`
       }
     })
+    const scrollStyle = computed(() => {
+      return {
+        top: `${imageHeight.value}px`
+      }
+    })
     return {
       bgImage,
       title1,
       pic1,
-      bgImageStyle
+      bgImageStyle,
+      scrollStyle
     }
   },
 
