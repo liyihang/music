@@ -3,7 +3,7 @@
     <div class="back" @click="goback()">
       <i class="icon-back"></i>
     </div>
-    <h1 class="title" ref="hhh">{{ title1 }}</h1>
+    <h1 class="title">{{ title }}</h1>
     <div ref="bgImage" class="bg-image" :style="bgImageStyle">
       <div class="filter"></div>
     </div>
@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import { ref, onMounted, reactive, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import Scroll from '@/components/base/scroll/scroll'
 import SongList from '@/components/base/song-list/song-list'
 export default {
@@ -37,15 +37,15 @@ export default {
   },
   setup(props) {
     const bgImage = ref(null)
-    const title1 = reactive(props.title)
-    const pic1 = reactive(props.pic)
+    // const title1 = reactive(props.title)
+    // const pic1 = reactive(props.pic)
     const imageHeight = ref(0)
     onMounted(() => {
-      console.log(bgImage.value)
+      console.log(bgImage.value.clientWidth)
     })
     const bgImageStyle = computed(() => {
       return {
-        backgroundImage: `url(${pic1})`
+        backgroundImage: `url(${props.pic})`
       }
     })
     const scrollStyle = computed(() => {
@@ -55,8 +55,6 @@ export default {
     })
     return {
       bgImage,
-      title1,
-      pic1,
       bgImageStyle,
       scrollStyle
     }
@@ -166,43 +164,3 @@ export default {
   }
 }
 </style>
- <!-- props: {
-    songs: {
-      type: Array,
-      default() {
-        return []
-      }
-    },
-    title: String,
-    pic: String,
-    loading: Boolean
-  },
-  data() {
-    return {
-      imageHeigth: 0
-    }
-  },
-
-  computed: { -->
-    <!-- bgImageStyle() {
-      return {
-        backgroundImage: `url(${this.pic})`
-      }
-    },
-    scrollStyle() {
-      return {
-        top: `${this.imageHeigth}px`
-      }
-    }
-  },
-  onMounted() {
-    this.$nextTick(() => {
-      this.imageHeight = this.$refs
-    })
-    console.log(this.imageHeight)
-  },
-  methods: {
-    goback() {
-      this.$router.back()
-    }
-  } -->
