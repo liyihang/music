@@ -5,10 +5,11 @@
 </template>
 
 <script>
-import { ref } from '@vue/reactivity'
 import useScroll from './use-scroll'
+import { ref } from 'vue'
+
 export default {
-  name: 'Scroll',
+  name: 'scroll',
   props: {
     click: {
       type: Boolean,
@@ -23,6 +24,7 @@ export default {
   setup(props, { emit }) {
     const rootRef = ref(null)
     const scroll = useScroll(rootRef, props, emit)
+
     return {
       rootRef,
       scroll
@@ -30,6 +32,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>
