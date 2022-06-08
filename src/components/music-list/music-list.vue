@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import { ref, onMounted, computed, nextTick } from 'vue'
+import { ref, onMounted, computed, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Scroll from '@/components/base/scroll/scroll'
 import SongList from '@/components/base/song-list/song-list'
@@ -59,7 +59,7 @@ export default {
      * computed
      */
     const bgImageStyle = computed(() => {
-      console.log('==========', maxTranslateY.value)
+      // console.log('==========', maxTranslateY.value)
       if (scrollY.value > maxTranslateY.value) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         zIndex.value = 10
@@ -78,6 +78,15 @@ export default {
     const scrollStyle = computed(() => {
       return {
         top: `${imageHeight.value}px`
+      }
+    })
+    /**
+     * watch
+     */
+    watch(paddingTop, (paddingTop) => {
+      console.log(paddingTop.value)
+      if (paddingTop === '0px') {
+        paddingTop.value = '70%'
       }
     })
     /**
