@@ -16,9 +16,10 @@
 </template>
 <script>
 import { ref, onMounted, computed, nextTick } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import Scroll from '@/components/base/scroll/scroll'
 import SongList from '@/components/base/song-list/song-list'
+const REVERSED_HEIGHT = 40
 export default {
   name: 'music-list',
   components: {
@@ -36,26 +37,41 @@ export default {
     pic: String,
     loading: Boolean
   },
-  data() {
-    return {
-      scrollY: 0
-    }
-  },
   setup(props) {
     const bgImage = ref(null)
     const imageHeight = ref(null)
+    const scrollY = ref(null)
+    const maxTranslateY = ref(0)
+    const zIndex = ref(0)
+    const paddingTop = ref('70%')
+    const height = ref(0)
     const router = useRouter()
-    const route = useRoute()
     /**
      * bugs  need fixed
      */
     onMounted(() => {
       nextTick(() => {
         imageHeight.value = bgImage.value.clientHeight
+        maxTranslateY.value = imageHeight.value - REVERSED_HEIGHT
       })
     })
+    /**
+     * computed
+     */
     const bgImageStyle = computed(() => {
+      console.log('==========', maxTranslateY.value)
+      if (scrollY.value > maxTranslateY.value) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        zIndex.value = 10
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        paddingTop.value = 0
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        height.value = `${REVERSED_HEIGHT}px`
+      }
       return {
+        zIndex: zIndex.value,
+        paddingTop: paddingTop.value,
+        height: `${height.value}`,
         backgroundImage: `url(${props.pic})`
       }
     })
@@ -64,16 +80,22 @@ export default {
         top: `${imageHeight.value}px`
       }
     })
+    /**
+    * methods
+    */
     const goback = () => {
-      console.log(router)
-      console.log(route)
       router.back()
+    }
+    const onScroll = (pos) => {
+      scrollY.value = -pos.y
+      console.log(scrollY.value)
     }
     return {
       bgImage,
       bgImageStyle,
       scrollStyle,
-      goback
+      goback,
+      onScroll
     }
   }
 }
@@ -116,9 +138,18 @@ export default {
   .bg-image {
     position: relative;
     width: 100%;
-    padding-top: 70%;
+    // padding-top: 70%;
     transform-origin: top;
     background-size: cover;
+
+    .filter {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(7, 17, 27, 0.4);
+    }
 
     .play-btn-wrapper {
       position: absolute;
@@ -150,15 +181,6 @@ export default {
         vertical-align: middle;
         font-size: $font-size-small;
       }
-    }
-
-    .filter {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(7, 17, 27, 0.4);
     }
   }
 
