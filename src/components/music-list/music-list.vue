@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, nextTick } from 'vue'
 import Scroll from '@/components/base/scroll/scroll'
 import SongList from '@/components/base/song-list/song-list'
 export default {
@@ -37,11 +37,14 @@ export default {
   },
   setup(props) {
     const bgImage = ref(null)
-    // const title1 = reactive(props.title)
-    // const pic1 = reactive(props.pic)
-    const imageHeight = ref(0)
+    const imageHeight = ref(null)
+    /**
+     * bugs  need fixed
+     */
     onMounted(() => {
-      console.log(bgImage.value.clientWidth)
+      nextTick(() => {
+        imageHeight.value = bgImage.value.clientHeight
+      })
     })
     const bgImageStyle = computed(() => {
       return {
@@ -106,6 +109,7 @@ export default {
   .bg-image {
     position: relative;
     width: 100%;
+    height: 300px;
     transform-origin: top;
     background-size: cover;
 

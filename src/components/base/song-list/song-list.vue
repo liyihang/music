@@ -94,11 +94,13 @@ export default {
       overflow: hidden;
 
       .name {
+        display: flex;
         @include no-wrap();
         color: $color-text
       }
 
       .desc {
+        display: flex;
         @include no-wrap();
         margin-top: 4px;
         color: $color-text-d;
