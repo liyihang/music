@@ -7,7 +7,7 @@
     <div ref="bgImage" class="bg-image" :style="bgImageStyle">
       <div class="filter"></div>
     </div>
-    <scroll class="list" :style="scrollStyle" v-loading="loading">
+    <scroll class="list" :style="scrollStyle" v-loading="loading" :probe-type="3" @scroll="onScroll">
       <div class="song-list-wrapper">
         <song-list :songs="songs"></song-list>
       </div>
@@ -16,6 +16,7 @@
 </template>
 <script>
 import { ref, onMounted, computed, nextTick } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import Scroll from '@/components/base/scroll/scroll'
 import SongList from '@/components/base/song-list/song-list'
 export default {
@@ -35,9 +36,16 @@ export default {
     pic: String,
     loading: Boolean
   },
+  data() {
+    return {
+      scrollY: 0
+    }
+  },
   setup(props) {
     const bgImage = ref(null)
     const imageHeight = ref(null)
+    const router = useRouter()
+    const route = useRoute()
     /**
      * bugs  need fixed
      */
@@ -56,18 +64,17 @@ export default {
         top: `${imageHeight.value}px`
       }
     })
+    const goback = () => {
+      console.log(router)
+      console.log(route)
+      router.back()
+    }
     return {
       bgImage,
       bgImageStyle,
-      scrollStyle
+      scrollStyle,
+      goback
     }
-  },
-
-  methods: {
-    goback() {
-      this.$router.back()
-    }
-
   }
 }
 </script>
@@ -109,7 +116,7 @@ export default {
   .bg-image {
     position: relative;
     width: 100%;
-    height: 300px;
+    padding-top: 70%;
     transform-origin: top;
     background-size: cover;
 
