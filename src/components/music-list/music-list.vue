@@ -5,7 +5,7 @@
     </div>
     <h1 class="title">{{ title }}</h1>
     <div ref="bgImage" class="bg-image" :style="bgImageStyle">
-      <div class="filter"></div>
+      <div class="filter" :style="filterStyle"></div>
     </div>
     <scroll class="list" :style="scrollStyle" v-loading="loading" :probe-type="3" @scroll="onScroll">
       <div class="song-list-wrapper">
@@ -47,6 +47,7 @@ export default {
     const height = ref(0)
     const translateZ = ref(0)
     const scale = ref(1)
+    const blur = ref(0)
     const router = useRouter()
     /**
      * bugs  need fixed
@@ -70,6 +71,14 @@ export default {
         transform: `scale(${scale.value})translateZ(${translateZ.value}px)`
       }
     })
+    const filterStyle = computed(() => {
+      return {
+        backdropFilter: `blur(${blur.value}px)`
+      }
+    })
+    /**
+     * style watch
+     */
     watch(scrollY, () => {
       // console.log('==========', maxTranslateY.value)
       if (scrollY.value > maxTranslateY.value) {
@@ -84,6 +93,15 @@ export default {
       // scale
       if (scrollY.value < 0) {
         scale.value = 1 + Math.abs(scrollY.value / imageHeight.value)
+      }
+    })
+    /**
+     * blur watch
+     *
+     */
+    watch(scrollY, () => {
+      if (scrollY.value > 0) {
+        blur.value = Math.min(maxTranslateY.value / imageHeight.value, scrollY.value / imageHeight.value) * 20
       }
     })
     const scrollStyle = computed(() => {
@@ -105,7 +123,8 @@ export default {
       bgImageStyle,
       scrollStyle,
       goback,
-      onScroll
+      onScroll,
+      filterStyle
     }
   }
 }
