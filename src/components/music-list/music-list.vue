@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import { ref, onMounted, computed, nextTick, watch } from 'vue'
+import { ref, onMounted, computed, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import Scroll from '@/components/base/scroll/scroll'
 import SongList from '@/components/base/song-list/song-list'
@@ -67,6 +67,11 @@ export default {
         paddingTop.value = 0
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         height.value = `${REVERSED_HEIGHT}px`
+      } else {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        paddingTop.value = '70%'
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        height.value = 0
       }
       return {
         zIndex: zIndex.value,
@@ -81,15 +86,6 @@ export default {
       }
     })
     /**
-     * watch
-     */
-    watch(paddingTop, (paddingTop) => {
-      console.log(paddingTop.value)
-      if (paddingTop === '0px') {
-        paddingTop.value = '70%'
-      }
-    })
-    /**
     * methods
     */
     const goback = () => {
@@ -97,7 +93,6 @@ export default {
     }
     const onScroll = (pos) => {
       scrollY.value = -pos.y
-      console.log(scrollY.value)
     }
     return {
       bgImage,
