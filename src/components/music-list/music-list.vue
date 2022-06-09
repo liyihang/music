@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import { ref, onMounted, computed, nextTick, toRefs } from 'vue'
+import { ref, onMounted, computed, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Scroll from '@/components/base/scroll/scroll'
 import SongList from '@/components/base/song-list/song-list'
@@ -62,33 +62,28 @@ export default {
      * side-effect problems  just dislike use watch
      */
     const bgImageStyle = computed(() => {
+      return {
+        zIndex: zIndex.value,
+        paddingTop: paddingTop.value,
+        height: `${height.value}`,
+        backgroundImage: `url(${props.pic})`,
+        transform: `scale(${scale.value})translateZ(${translateZ.value}px)`
+      }
+    })
+    watch(scrollY, () => {
       // console.log('==========', maxTranslateY.value)
       if (scrollY.value > maxTranslateY.value) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         zIndex.value = 10
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         paddingTop.value = 0
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         height.value = `${REVERSED_HEIGHT}px`
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         translateZ.value = 1
       } else {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         paddingTop.value = '70%'
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         height.value = 0
       }
       // scale
       if (scrollY.value < 0) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         scale.value = 1 + Math.abs(scrollY.value / imageHeight.value)
-      }
-      return {
-        zIndex: zIndex.value,
-        paddingTop: toRefs(paddingTop.value),
-        height: `${height.value}`,
-        backgroundImage: `url(${props.pic})`,
-        transform: `scale(${scale.value})translateZ(${translateZ.value}px)`
       }
     })
     const scrollStyle = computed(() => {
