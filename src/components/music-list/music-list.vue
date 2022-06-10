@@ -89,6 +89,7 @@ export default {
       } else {
         paddingTop.value = '70%'
         height.value = 0
+        zIndex.value = 0
       }
       // scale
       if (scrollY.value < 0) {
