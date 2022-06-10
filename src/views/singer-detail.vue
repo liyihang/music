@@ -48,6 +48,11 @@ export default {
     singer: Object
   },
   async created() {
+    if (!this.computedSiner) {
+      const path = this.$route.matched[0].path
+      this.$router.push(path)
+      return
+    }
     const result = await getSingerDetail(this.computedSiner)
     this.songs = await processSongs(result.songs)
     this.loading = false
