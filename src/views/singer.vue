@@ -8,6 +8,8 @@
 <script>
 import { getSingerList } from '../service/singer'
 import indexList from '@/components/base/index-list/index-list.vue'
+import storage from 'good-storage'
+import { SINGER_KEY } from '@/assets/js/constant.js'
 export default {
   name: 'singer',
   data() {
@@ -26,9 +28,13 @@ export default {
   methods: {
     selectSinger(singer) {
       this.selectedSinger = singer
+      this.cacheSinger(singer)
       this.$router.push({
         path: `/singer/${singer.mid}`
       })
+    },
+    cacheSinger(singer) {
+      storage.session.set(SINGER_KEY, singer)
     }
   }
 }
