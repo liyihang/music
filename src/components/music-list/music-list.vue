@@ -7,7 +7,14 @@
     <div ref="bgImage" class="bg-image" :style="bgImageStyle">
       <div class="filter" :style="filterStyle"></div>
     </div>
-    <scroll class="list" :style="scrollStyle" v-loading="loading" :probe-type="3" @scroll="onScroll">
+    <scroll
+      class="list"
+      :style="scrollStyle"
+      v-loading="loading"
+      v-no-result:[noResultText]="noResult"
+      :probe-type="3"
+      @scroll="onScroll"
+    >
       <div class="song-list-wrapper">
         <song-list :songs="songs"></song-list>
       </div>
@@ -35,7 +42,11 @@ export default {
     },
     title: String,
     pic: String,
-    loading: Boolean
+    loading: Boolean,
+    noResultText: {
+      type: String,
+      default: '抱歉，暂未有相关歌曲'
+    }
   },
   setup(props) {
     const bgImage = ref(null)
@@ -62,6 +73,9 @@ export default {
      * computed
      * side-effect problems  just dislike use watch
      */
+    const noResult = computed(() => {
+      return !props.loading && !props.songs.length
+    })
     const bgImageStyle = computed(() => {
       return {
         zIndex: zIndex.value,
@@ -102,7 +116,11 @@ export default {
      */
     watch(scrollY, () => {
       if (scrollY.value > 0) {
-        blur.value = Math.min(maxTranslateY.value / imageHeight.value, scrollY.value / imageHeight.value) * 20
+        blur.value =
+          Math.min(
+            maxTranslateY.value / imageHeight.value,
+            scrollY.value / imageHeight.value
+          ) * 20
       }
     })
     const scrollStyle = computed(() => {
@@ -111,8 +129,8 @@ export default {
       }
     })
     /**
-    * methods
-    */
+     * methods
+     */
     const goback = () => {
       router.back()
     }
@@ -125,7 +143,8 @@ export default {
       scrollStyle,
       goback,
       onScroll,
-      filterStyle
+      filterStyle,
+      noResult
     }
   }
 }

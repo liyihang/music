@@ -3,7 +3,7 @@ import { addClass, removeClass } from '@/assets/js/dom'
 
 const relativeCls = 'g-relative'
 
-export default function createLoadingLikeDirective(Comp) {
+export default function createFactoryDirective(Comp) {
   return {
     mounted(el, binding) {
       const app = createApp(Comp)
