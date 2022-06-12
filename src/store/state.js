@@ -7,3 +7,5 @@ const state = {
   currentIndex: 0,
   fullScreen: false
 }
+
+export default state
