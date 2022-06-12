@@ -16,7 +16,10 @@
       @scroll="onScroll"
     >
       <div class="song-list-wrapper">
-        <song-list :songs="songs"></song-list>
+        <song-list
+          :songs="songs"
+          @select="selectItem(songs, index)"
+        ></song-list>
       </div>
     </scroll>
   </div>
@@ -26,6 +29,7 @@ import { ref, onMounted, computed, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Scroll from '@/components/base/scroll/scroll'
 import SongList from '@/components/base/song-list/song-list'
+import { mapActions } from 'vuex'
 const REVERSED_HEIGHT = 40
 export default {
   name: 'music-list',
@@ -137,6 +141,13 @@ export default {
     const onScroll = (pos) => {
       scrollY.value = -pos.y
     }
+    const selectItem = ({ songs, index }) => {
+      selectPlay({
+        list: songs,
+        index
+      })
+    }
+    // leave a mapactions useage bug
     return {
       bgImage,
       bgImageStyle,
@@ -144,7 +155,8 @@ export default {
       goback,
       onScroll,
       filterStyle,
-      noResult
+      noResult,
+      selectItem
     }
   }
 }
