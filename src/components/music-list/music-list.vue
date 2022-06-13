@@ -16,10 +16,7 @@
       @scroll="onScroll"
     >
       <div class="song-list-wrapper">
-        <song-list
-          :songs="songs"
-          @select="selectItem(songs, index)"
-        ></song-list>
+        <song-list :songs="songs" @select="selectItem"></song-list>
       </div>
     </scroll>
   </div>
@@ -142,10 +139,10 @@ export default {
     const onScroll = (pos) => {
       scrollY.value = -pos.y
     }
-    const selectItem = ({ songs, index }) => {
+    const selectItem = ({ song, index }) => {
       selectPlay({
         list: props.songs,
-        index
+        index: index
       })
     }
     const selectPlay = ({ list, index }) =>

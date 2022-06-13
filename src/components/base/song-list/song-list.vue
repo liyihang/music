@@ -1,6 +1,11 @@
 <template>
   <ul class="song-list">
-    <li class="item" v-for="(song, index) in songs" :key="song.id" @click="selectItem(song, index)">
+    <li
+      class="item"
+      v-for="(song, index) in songs"
+      :key="song.id"
+      @click="selectItem(song, index)"
+    >
       <div class="rank" v-if="rank">
         <span :class="getRankCls(index)">{{ getRankText(index) }}</span>
       </div>
@@ -96,7 +101,7 @@ export default {
       .name {
         display: flex;
         @include no-wrap();
-        color: $color-text
+        color: $color-text;
       }
 
       .desc {

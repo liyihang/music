@@ -6,7 +6,7 @@ export const SINGER_KEY = '__singer__'
  * 顺序
  *  */
 export const PLAYMODE = {
-  sequenceList: 0,
+  sequence: 0,
   loop: 1,
   ramdom: 2
 }
