@@ -13,11 +13,11 @@ export function selectPlay({ commit }, { list, index }) {
 /**
  * 随机播放
  */
-export function randomPlay({ commit, state }, { list, index }) {
+export function randomPlay({ commit, state }, list) {
   commit('setSequenceList', list)
   commit('setPlayMode', PLAYMODE.sequence)
   commit('setPlayState', true)
   commit('setFullScreen', true)
   commit('setPlayList', shuffle(list))
-  commit('setCurrentIndex', index)
+  commit('setCurrentIndex', 0)
 }

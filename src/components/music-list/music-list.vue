@@ -5,6 +5,12 @@
     </div>
     <h1 class="title">{{ title }}</h1>
     <div ref="bgImage" class="bg-image" :style="bgImageStyle">
+      <div class="play-btn-wrapper" :style="palyBtnStyle">
+        <div v-show="songs.length > 0" class="play-btn" @click="random">
+          <i class="icon-play"></i>
+          <span class="text">随机播放全部</span>
+        </div>
+      </div>
       <div class="filter" :style="filterStyle"></div>
     </div>
     <scroll
@@ -60,6 +66,7 @@ export default {
     const translateZ = ref(0)
     const scale = ref(1)
     const blur = ref(0)
+    const display = ref('')
     const router = useRouter()
     const store = useStore()
     /**
@@ -90,6 +97,17 @@ export default {
     const filterStyle = computed(() => {
       return {
         backdropFilter: `blur(${blur.value}px)`
+      }
+    })
+    const scrollStyle = computed(() => {
+      return {
+        top: `${imageHeight.value}px`
+      }
+    })
+    const palyBtnStyle = computed(() => {
+      console.log(display.value)
+      return {
+        display: display.value
       }
     })
     /**
@@ -125,11 +143,15 @@ export default {
           ) * 20
       }
     })
-    const scrollStyle = computed(() => {
-      return {
-        top: `${imageHeight.value}px`
+
+    watch(scrollY, () => {
+      if (scrollY.value > maxTranslateY.value) {
+        display.value = 'none'
+      } else {
+        display.value = ''
       }
     })
+
     /**
      * methods
      */
@@ -145,9 +167,14 @@ export default {
         index: index
       })
     }
+    const random = () => {
+      randomPlay(props.songs)
+    }
     const selectPlay = ({ list, index }) =>
       store.dispatch('selectPlay', { list, index })
-    // leave a mapactions useage bug
+    const randomPlay = (list) => {
+      store.dispatch('randomPlay', list)
+    }
     return {
       bgImage,
       bgImageStyle,
@@ -156,7 +183,9 @@ export default {
       onScroll,
       filterStyle,
       noResult,
-      selectItem
+      selectItem,
+      random,
+      palyBtnStyle
     }
   }
 }
