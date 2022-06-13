@@ -4,6 +4,7 @@ export function shuffle(source) {
     const j = getRandomInt(i)
     swap(arr, i, j)
   }
+  return arr
 }
 // 获取随机整数
 function getRandomInt(max) {
