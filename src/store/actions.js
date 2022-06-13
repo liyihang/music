@@ -1,6 +1,6 @@
 import { PLAYMODE } from '@/assets/js/constant'
 
-export function selectPlay({ commit, state }, { list, index }) {
+export function selectPlay({ commit }, { list, index }) {
   commit('setSequenceList', list)
   commit('setPlayMode', PLAYMODE.sequence)
   commit('setPlayState', true)

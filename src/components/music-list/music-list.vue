@@ -29,7 +29,7 @@ import { ref, onMounted, computed, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Scroll from '@/components/base/scroll/scroll'
 import SongList from '@/components/base/song-list/song-list'
-import { mapActions } from 'vuex'
+import { useStore } from 'vuex'
 const REVERSED_HEIGHT = 40
 export default {
   name: 'music-list',
@@ -64,6 +64,7 @@ export default {
     const scale = ref(1)
     const blur = ref(0)
     const router = useRouter()
+    const store = useStore()
     /**
      * bugs  need fixed
      */
@@ -143,10 +144,12 @@ export default {
     }
     const selectItem = ({ songs, index }) => {
       selectPlay({
-        list: songs,
+        list: props.songs,
         index
       })
     }
+    const selectPlay = ({ list, index }) =>
+      store.dispatch('selectPlay', { list, index })
     // leave a mapactions useage bug
     return {
       bgImage,
