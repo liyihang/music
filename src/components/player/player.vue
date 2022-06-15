@@ -12,20 +12,30 @@
         <h1 class="subtitle">{{ currentSong.singer }}</h1>
       </div>
     </div>
-    <audio src=""></audio>
+    <audio ref="audioRef"></audio>
   </div>
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core'
+import { computed, ref, watch } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 export default {
   name: 'player',
   setup() {
+    const audioRef = ref(null)
     const store = useStore()
     const fullScreen = computed(() => store.state.fullScreen)
     const currentSong = computed(() => store.getters.currentSong)
+    watch(currentSong, (newSong) => {
+      if (!newSong.id || !newSong.url) {
+        return
+      }
+      const audioEl = audioRef.value
+      audioEl.src = newSong.url
+      audioEl.play()
+    })
     return {
+      audioRef,
       fullScreen,
       currentSong
     }
