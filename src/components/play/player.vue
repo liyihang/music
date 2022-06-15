@@ -17,11 +17,21 @@
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core'
+import { useStore } from 'vuex'
 export default {
-  name: 'play'
+  name: 'player',
+  setup() {
+    const store = useStore()
+    const fullScreen = computed(() => store.state.fullScreen)
+    const currentSong = computed(() => store.getters.currentSong)
+    return {
+      fullScreen,
+      currentSong
+    }
+  }
 }
 </script>
-
 <style lang="scss" scoped>
 .player {
   .normal-player {
