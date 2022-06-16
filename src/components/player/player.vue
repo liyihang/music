@@ -1,14 +1,14 @@
 <template>
   <div class="player">
-    <div class="normal-palyer" v-show="fullScreen">
+    <div class="normal-player" v-show="fullScreen">
       <div class="background">
         <img :src="currentSong.pic" alt="" />
       </div>
       <div class="top">
-        <div class="back">
+        <div class="back" @click="goback">
           <i class="icon-back"></i>
         </div>
-        <h1 class="title">{{ currentSong.title }}</h1>
+        <h1 class="title">{{ currentSong.name }}</h1>
         <h1 class="subtitle">{{ currentSong.singer }}</h1>
       </div>
     </div>
@@ -34,10 +34,14 @@ export default {
       audioEl.src = newSong.url
       audioEl.play()
     })
+    const goback = () => {
+      store.commit('setFullScreen', false)
+    }
     return {
       audioRef,
       fullScreen,
-      currentSong
+      currentSong,
+      goback
     }
   }
 }
