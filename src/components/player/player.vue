@@ -19,8 +19,8 @@
           <div class="icon i-left">
             <i class="icon-prev"></i>
           </div>
-          <div class="icon i-center">
-            <i></i>
+          <div class="icon i-center" @click="togglePlay">
+            <i :class="playIcon"></i>
           </div>
           <div class="icon i-right">
             <i class="icon-next"></i>
@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <audio ref="audioRef"></audio>
+    <audio ref="audioRef" @pause="pause"></audio>
   </div>
 </template>
 
@@ -45,6 +45,11 @@ export default {
     const store = useStore()
     const fullScreen = computed(() => store.state.fullScreen)
     const currentSong = computed(() => store.getters.currentSong)
+    // 播放状态
+    const playing = computed(() => store.state.playing)
+    const playIcon = computed(() => {
+      return playing.value ? 'icon-pause' : 'icon-play'
+    })
     watch(currentSong, (newSong) => {
       if (!newSong.id || !newSong.url) {
         return
@@ -53,14 +58,29 @@ export default {
       audioEl.src = newSong.url
       audioEl.play()
     })
+    // 监听播放，状态
+    watch(playing, (newPlaying) => {
+      const audioEl = audioRef.value
+      newPlaying ? audioEl.play() : audioEl.pause()
+    })
     const goback = () => {
       store.commit('setFullScreen', false)
+    }
+    const togglePlay = () => {
+      store.commit('setPlayState', !playing.value)
+    }
+    // pause
+    const pause = () => {
+      store.commit('setPlayState', false)
     }
     return {
       audioRef,
       fullScreen,
       currentSong,
-      goback
+      playIcon,
+      togglePlay,
+      goback,
+      pause
     }
   }
 }
