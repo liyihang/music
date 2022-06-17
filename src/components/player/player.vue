@@ -78,26 +78,40 @@ export default {
     // 上一曲
     const prev = () => {
       const list = playList.value
-      let index = currentIndex.value - 1
-      if (index === -1) {
-        index = list.length - 1
-      }
-      store.commit('setCurrentIndex', index)
-      if (!playing.value) {
-        store.commit('setPlayState', true)
+      if (list.length === 1) {
+        loop()
+      } else {
+        let index = currentIndex.value - 1
+        if (index === -1) {
+          index = list.length - 1
+        }
+        store.commit('setCurrentIndex', index)
+        if (!playing.value) {
+          store.commit('setPlayState', true)
+        }
       }
     }
     // 下一曲
     const next = () => {
       const list = playList.value
-      let index = currentIndex.value + 1
-      if (index === list.length) {
-        index = 0
+      if (list.length === 1) {
+        loop()
+      } else {
+        let index = currentIndex.value + 1
+        if (index === list.length) {
+          index = 0
+        }
+        store.commit('setCurrentIndex', index)
+        if (!playing.value) {
+          store.commit('setPlayState', true)
+        }
       }
-      store.commit('setCurrentIndex', index)
-      if (!playing.value) {
-        store.commit('setPlayState', true)
-      }
+    }
+    // loop
+    const loop = () => {
+      const audioEl = audioRef.value
+      audioEl.currentTime = 0
+      audioEl.play()
     }
     return {
       audioRef,
