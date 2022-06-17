@@ -17,13 +17,13 @@
             <i class="icon-sequence"></i>
           </div>
           <div class="icon i-left">
-            <i class="icon-prev"></i>
+            <i class="icon-prev" @click="prev"></i>
           </div>
-          <div class="icon i-center" @click="togglePlay">
-            <i :class="playIcon"></i>
+          <div class="icon i-center">
+            <i :class="playIcon" @click="togglePlay"></i>
           </div>
           <div class="icon i-right">
-            <i class="icon-next"></i>
+            <i class="icon-next" @click="next"></i>
           </div>
           <div class="icon i-right">
             <i class="icon-not-favorite"></i>
@@ -45,6 +45,8 @@ export default {
     const store = useStore()
     const fullScreen = computed(() => store.state.fullScreen)
     const currentSong = computed(() => store.getters.currentSong)
+    const playList = computed(() => store.state.playList)
+    const currentIndex = computed(() => store.state.currentIndex)
     // 播放状态
     const playing = computed(() => store.state.playing)
     const playIcon = computed(() => {
@@ -73,6 +75,30 @@ export default {
     const pause = () => {
       store.commit('setPlayState', false)
     }
+    // 上一曲
+    const prev = () => {
+      const list = playList.value
+      let index = currentIndex.value - 1
+      if (index === -1) {
+        index = list.length - 1
+      }
+      store.commit('setCurrentIndex', index)
+      if (!playing.value) {
+        store.commit('setPlayState', true)
+      }
+    }
+    // 下一曲
+    const next = () => {
+      const list = playList.value
+      let index = currentIndex.value + 1
+      if (index === list.length) {
+        index = 0
+      }
+      store.commit('setCurrentIndex', index)
+      if (!playing.value) {
+        store.commit('setPlayState', true)
+      }
+    }
     return {
       audioRef,
       fullScreen,
@@ -80,7 +106,9 @@ export default {
       playIcon,
       togglePlay,
       goback,
-      pause
+      pause,
+      prev,
+      next
     }
   }
 }
