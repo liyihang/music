@@ -16,14 +16,14 @@
           <div class="icon i-left">
             <i class="icon-sequence"></i>
           </div>
-          <div class="icon i-left">
+          <div class="icon i-left" :class="disableCls">
             <i class="icon-prev" @click="prev"></i>
           </div>
           <div class="icon i-center">
-            <i :class="playIcon" @click="togglePlay"></i>
+            <i class="playIcon" @click="togglePlay" :class="disableCls"></i>
           </div>
           <div class="icon i-right">
-            <i class="icon-next" @click="next"></i>
+            <i class="icon-next" @click="next" :class="disableCls"></i>
           </div>
           <div class="icon i-right">
             <i class="icon-not-favorite"></i>
@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <audio ref="audioRef" @pause="pause"></audio>
+    <audio ref="audioRef" @pause="pause" @canplay="ready"></audio>
   </div>
 </template>
 
@@ -41,6 +41,7 @@ import { useStore } from 'vuex'
 export default {
   name: 'player',
   setup() {
+    const songReady = ref(false)
     const audioRef = ref(null)
     const store = useStore()
     const fullScreen = computed(() => store.state.fullScreen)
@@ -52,16 +53,23 @@ export default {
     const playIcon = computed(() => {
       return playing.value ? 'icon-pause' : 'icon-play'
     })
+    const disableCls = computed(() => {
+      return songReady.value ? '' : 'disable'
+    })
     watch(currentSong, (newSong) => {
       if (!newSong.id || !newSong.url) {
         return
       }
+      songReady.value = false
       const audioEl = audioRef.value
       audioEl.src = newSong.url
       audioEl.play()
     })
     // 监听播放，状态
     watch(playing, (newPlaying) => {
+      if (!songReady.value) {
+        return
+      }
       const audioEl = audioRef.value
       newPlaying ? audioEl.play() : audioEl.pause()
     })
@@ -69,6 +77,9 @@ export default {
       store.commit('setFullScreen', false)
     }
     const togglePlay = () => {
+      if (!songReady.value) {
+        return
+      }
       store.commit('setPlayState', !playing.value)
     }
     // pause
@@ -78,7 +89,7 @@ export default {
     // 上一曲
     const prev = () => {
       const list = playList.value
-      if (!list.length) {
+      if (!songReady.value || !list.length) {
         return
       }
       if (list.length === 1) {
@@ -97,7 +108,7 @@ export default {
     // 下一曲
     const next = () => {
       const list = playList.value
-      if (!list.length) {
+      if (!songReady.value || !list.length) {
         return
       }
       if (list.length === 1) {
@@ -119,16 +130,25 @@ export default {
       audioEl.currentTime = 0
       audioEl.play()
     }
+    // ready
+    const ready = () => {
+      if (songReady.value) {
+        return
+      }
+      songReady.value = true
+    }
     return {
       audioRef,
       fullScreen,
       currentSong,
       playIcon,
+      disableCls,
       togglePlay,
       goback,
       pause,
       prev,
-      next
+      next,
+      ready
     }
   }
 }
