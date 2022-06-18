@@ -16,14 +16,14 @@
           <div class="icon i-left">
             <i class="icon-sequence"></i>
           </div>
-          <div class="icon i-left" :class="disableCls">
+          <div class="icon i-left">
             <i class="icon-prev" @click="prev"></i>
           </div>
           <div class="icon i-center">
-            <i class="playIcon" @click="togglePlay" :class="disableCls"></i>
+            <i :class="playIcon" @click="togglePlay"></i>
           </div>
           <div class="icon i-right">
-            <i class="icon-next" @click="next" :class="disableCls"></i>
+            <i class="icon-next" @click="next"></i>
           </div>
           <div class="icon i-right">
             <i class="icon-not-favorite"></i>
@@ -41,7 +41,6 @@ import { useStore } from 'vuex'
 export default {
   name: 'player',
   setup() {
-    const songReady = ref(false)
     const audioRef = ref(null)
     const songReady = ref(false)
     const store = useStore()
@@ -54,9 +53,7 @@ export default {
     const playIcon = computed(() => {
       return playing.value ? 'icon-pause' : 'icon-play'
     })
-    const disableCls = computed(() => {
-      return songReady.value ? '' : 'disable'
-    })
+    //
     watch(currentSong, (newSong) => {
       if (!newSong.id || !newSong.url) {
         return
@@ -78,9 +75,6 @@ export default {
       store.commit('setFullScreen', false)
     }
     const togglePlay = () => {
-      if (!songReady.value) {
-        return
-      }
       store.commit('setPlayState', !playing.value)
     }
     // pause
@@ -143,7 +137,6 @@ export default {
       fullScreen,
       currentSong,
       playIcon,
-      disableCls,
       togglePlay,
       goback,
       pause,
