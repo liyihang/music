@@ -78,6 +78,9 @@ export default {
     // 上一曲
     const prev = () => {
       const list = playList.value
+      if (!list.length) {
+        return
+      }
       if (list.length === 1) {
         loop()
       } else {
@@ -94,6 +97,9 @@ export default {
     // 下一曲
     const next = () => {
       const list = playList.value
+      if (!list.length) {
+        return
+      }
       if (list.length === 1) {
         loop()
       } else {
