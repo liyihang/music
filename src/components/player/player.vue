@@ -16,14 +16,14 @@
           <div class="icon i-left">
             <i class="icon-sequence"></i>
           </div>
-          <div class="icon i-left">
+          <div class="icon i-left" :class="disableCls">
             <i class="icon-prev" @click="prev"></i>
           </div>
-          <div class="icon i-center">
+          <div class="icon i-center" :class="disableCls">
             <i :class="playIcon" @click="togglePlay"></i>
           </div>
           <div class="icon i-right">
-            <i class="icon-next" @click="next"></i>
+            <i class="icon-next" @click="next" :class="disableCls"></i>
           </div>
           <div class="icon i-right">
             <i class="icon-not-favorite"></i>
@@ -53,7 +53,10 @@ export default {
     const playIcon = computed(() => {
       return playing.value ? 'icon-pause' : 'icon-play'
     })
-    //
+    // play state next pre or other style
+    const disableCls = computed(() => {
+      return songReady.value ? '' : 'disable'
+    })
     watch(currentSong, (newSong) => {
       if (!newSong.id || !newSong.url) {
         return
@@ -137,6 +140,7 @@ export default {
       fullScreen,
       currentSong,
       playIcon,
+      disableCls,
       togglePlay,
       goback,
       pause,
