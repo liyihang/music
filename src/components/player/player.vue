@@ -31,7 +31,12 @@
         </div>
       </div>
     </div>
-    <audio ref="audioRef" @pause="pause" @canplay="ready"></audio>
+    <audio
+      ref="audioRef"
+      @pause="pause"
+      @canplay="ready"
+      @error="error"
+    ></audio>
   </div>
 </template>
 
@@ -78,6 +83,9 @@ export default {
       store.commit('setFullScreen', false)
     }
     const togglePlay = () => {
+      if (!songReady.value) {
+        return
+      }
       store.commit('setPlayState', !playing.value)
     }
     // pause
@@ -135,6 +143,10 @@ export default {
       }
       songReady.value = true
     }
+    // error
+    const error = () => {
+      songReady.value = true
+    }
     return {
       audioRef,
       fullScreen,
@@ -146,7 +158,8 @@ export default {
       pause,
       prev,
       next,
-      ready
+      ready,
+      error
     }
   }
 }
