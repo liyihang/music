@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <audio ref="audioRef" @pause="pause"></audio>
+    <audio ref="audioRef" @pause="pause" @canplay="ready"></audio>
   </div>
 </template>
 
@@ -42,6 +42,7 @@ export default {
   name: 'player',
   setup() {
     const audioRef = ref(null)
+    const songReady = ref(false)
     const store = useStore()
     const fullScreen = computed(() => store.state.fullScreen)
     const currentSong = computed(() => store.getters.currentSong)
@@ -56,12 +57,16 @@ export default {
       if (!newSong.id || !newSong.url) {
         return
       }
+      songReady.value = false
       const audioEl = audioRef.value
       audioEl.src = newSong.url
       audioEl.play()
     })
     // 监听播放，状态
     watch(playing, (newPlaying) => {
+      if (!songReady.value) {
+        return
+      }
       const audioEl = audioRef.value
       newPlaying ? audioEl.play() : audioEl.pause()
     })
@@ -78,7 +83,7 @@ export default {
     // 上一曲
     const prev = () => {
       const list = playList.value
-      if (!list.length) {
+      if (!songReady.value || !list.length) {
         return
       }
       if (list.length === 1) {
@@ -97,7 +102,7 @@ export default {
     // 下一曲
     const next = () => {
       const list = playList.value
-      if (!list.length) {
+      if (!songReady.value || !list.length) {
         return
       }
       if (list.length === 1) {
@@ -119,6 +124,13 @@ export default {
       audioEl.currentTime = 0
       audioEl.play()
     }
+    // ready
+    const ready = () => {
+      if (songReady.value) {
+        return
+      }
+      songReady.value = true
+    }
     return {
       audioRef,
       fullScreen,
@@ -128,7 +140,8 @@ export default {
       goback,
       pause,
       prev,
-      next
+      next,
+      ready
     }
   }
 }
