@@ -1,0 +1,16 @@
+import { useStore } from 'vuex'
+import { computed } from 'vue'
+import { PLAYMODE } from '@/assets/js/constant'
+export default function useMode() {
+  const store = useStore()
+  const playMode = computed(() => store.state.playMode)
+  const modeIcon = computed(() => {
+    const playModeVal = playMode.value
+    return playModeVal === PLAYMODE.sequence
+      ? 'icon-sequence'
+      : playModeVal === PLAYMODE.random
+        ? 'icon-random'
+        : 'icon-loop'
+  })
+  return { modeIcon }
+}

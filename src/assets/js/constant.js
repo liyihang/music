@@ -8,5 +8,5 @@ export const SINGER_KEY = '__singer__'
 export const PLAYMODE = {
   sequence: 0,
   loop: 1,
-  ramdom: 2
+  random: 2
 }
