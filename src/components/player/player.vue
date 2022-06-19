@@ -50,7 +50,7 @@ export default {
     const audioRef = ref(null)
     const songReady = ref(false)
     const store = useStore()
-    const { modeIcon } = useMode()
+    const { modeIcon, changeMode } = useMode()
     const fullScreen = computed(() => store.state.fullScreen)
     const currentSong = computed(() => store.getters.currentSong)
     const playList = computed(() => store.state.playList)
@@ -162,7 +162,8 @@ export default {
       next,
       ready,
       error,
-      modeIcon
+      modeIcon,
+      changeMode
     }
   }
 }

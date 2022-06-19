@@ -12,5 +12,10 @@ export default function useMode() {
         ? 'icon-random'
         : 'icon-loop'
   })
-  return { modeIcon }
+  function changeMode() {
+    const mode = (playMode.value + 1) % 3
+    console.log(mode)
+    store.dispatch('changeMode', mode)
+  }
+  return { modeIcon, changeMode }
 }
