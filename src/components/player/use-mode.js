@@ -4,6 +4,7 @@ import { PLAYMODE } from '@/assets/js/constant'
 export default function useMode() {
   const store = useStore()
   const playMode = computed(() => store.state.playMode)
+  console.log(playMode.value)
   const modeIcon = computed(() => {
     const playModeVal = playMode.value
     return playModeVal === PLAYMODE.sequence
@@ -14,7 +15,6 @@ export default function useMode() {
   })
   function changeMode() {
     const mode = (playMode.value + 1) % 3
-    console.log(mode)
     store.dispatch('changeMode', mode)
   }
   return { modeIcon, changeMode }

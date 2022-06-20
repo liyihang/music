@@ -37,5 +37,5 @@ export function changeMode({ commit, state, getters }, mode) {
   })
 
   commit('setCurrentIndex', index)
-  commit('setPlayMode', PLAYMODE.mode)
+  commit('setPlayMode', mode)
 }
