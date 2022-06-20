@@ -5,7 +5,8 @@ const state = {
   playing: false,
   playMode: PLAYMODE.sequence,
   currentIndex: 0,
-  fullScreen: false
+  fullScreen: false,
+  favoriteList: []
 }
 
 export default state
