@@ -4,6 +4,7 @@ import { save } from '@/assets/js/array-store'
 import { FAVORITE_KEY } from '@ /assets/js/constant'
 export default function useFavorite() {
   const store = useStore()
+  const maxLen = 100
   const favoriteList = computed(() => store.state.favoriteList)
 
   // favorite iocn 图标
@@ -17,7 +18,7 @@ export default function useFavorite() {
       // remove
     } else {
       // save
-      list = save(song, FAVORITE_KEY, compare)
+      list = save(song, FAVORITE_KEY, compare, maxLen)
     }
     song.commit('setFavoriteList', list)
     function compare(item) {
