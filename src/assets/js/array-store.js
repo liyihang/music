@@ -1,4 +1,4 @@
-import { storage } from 'good-storage'
+import storage from 'good-storage'
 function insertArray(arr, val, compare, maxLen) {
   const index = arr.findIndex(compare)
   if (index > -1) {
@@ -27,4 +27,7 @@ export function remove(key, compare) {
   deleteFromArray(items, compare)
   storage.set(key, items)
   return items
+}
+export function load(key) {
+  return storage.get(key)
 }
