@@ -1,6 +1,6 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
-import { save } from '@/assets/js/array-store'
+import { save, remove } from '@/assets/js/array-store'
 import { FAVORITE_KEY } from '@ /assets/js/constant'
 export default function useFavorite() {
   const store = useStore()
@@ -16,6 +16,7 @@ export default function useFavorite() {
     let list
     if (isFavorite(song)) {
       // remove
+      list = remove(FAVORITE_KEY, compare)
     } else {
       // save
       list = save(song, FAVORITE_KEY, compare, maxLen)
