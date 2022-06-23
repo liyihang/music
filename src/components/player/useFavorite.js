@@ -30,6 +30,7 @@ export default function useFavorite() {
   // 获取收藏歌曲
   function isFavorite(song) {
     return (
+      favoriteList.value &&
       favoriteList.value.findIndex((item) => {
         return item.id === song.id
       }) > -1

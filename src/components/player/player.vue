@@ -12,6 +12,14 @@
         <h1 class="subtitle">{{ currentSong.singer }}</h1>
       </div>
       <div class="bottom">
+        <!-- progress-bar -->
+        <div class="progress-wrapper">
+          <span class="time time-l">{{ currentTime }}</span>
+          <div class="progress-bar-wrapper">
+            <progress-bar :progress="progress"></progress-bar>
+          </div>
+          <span class="time time-r">{{ currentSong.duration }}</span>
+        </div>
         <div class="operators">
           <div class="icon i-left">
             <i @click="changeMode" :class="modeIcon"></i>
@@ -39,6 +47,7 @@
       @pause="pause"
       @canplay="ready"
       @error="error"
+      @timeupdate="updateTime"
     ></audio>
   </div>
 </template>
@@ -48,11 +57,17 @@ import { computed, ref, watch } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import useMode from './use-mode'
 import useFavorite from './useFavorite'
+import progressBar from './progress-bar.vue'
 export default {
   name: 'player',
+  components: {
+    progressBar
+  },
   setup() {
     const audioRef = ref(null)
     const songReady = ref(false)
+
+    const currentTime = ref(0)
     const store = useStore()
     const { modeIcon, changeMode } = useMode()
     // favorite
@@ -70,10 +85,16 @@ export default {
     const disableCls = computed(() => {
       return songReady.value ? '' : 'disable'
     })
+    // progress-bar
+    const progress = computed(() => {
+      return currentTime.value / currentSong.value.duration
+    })
     watch(currentSong, (newSong) => {
       if (!newSong.id || !newSong.url) {
         return
       }
+      // set currentTime 0
+      currentTime.value = 0
       songReady.value = false
       const audioEl = audioRef.value
       audioEl.src = newSong.url
@@ -155,6 +176,14 @@ export default {
     const error = () => {
       songReady.value = true
     }
+    /**
+     * progress-bar
+     * @updateTime
+     *@pramas get audio play time
+     */
+    const updateTime = (e) => {
+      currentTime.value = e.target.currentTime
+    }
     return {
       audioRef,
       fullScreen,
@@ -171,7 +200,11 @@ export default {
       modeIcon,
       changeMode,
       getFavoriteIcon,
-      toggleFavorite
+      toggleFavorite,
+      // progress-bar
+      progress,
+      currentTime,
+      updateTime
     }
   }
 }
