@@ -1,8 +1,8 @@
 <template>
   <div class="progress-bar">
     <div class="bar-inner">
-      <div class="progress"></div>
-      <div class="progress-btn-wrapper">
+      <div class="progress" :style="progressStyle"></div>
+      <div class="progress-btn-wrapper" :style="btnStyle">
         <div class="progress-btn"></div>
       </div>
     </div>
@@ -10,8 +10,26 @@
 </template>
 
 <script>
+import { ref, watch } from 'vue'
+const progressBtnWidth = 16
 export default {
-  name: 'progress-bar'
+  name: 'progress-bar',
+  props: {
+    progress: {
+      type: Number,
+      default: 0
+    },
+    setup(props) {
+      const offset = ref(0)
+
+      watch(props.progress, (newProgress) => {
+        const barWidth = this.$el.clientWidth - progressBtnWidth
+        offset.value = barWidth * newProgress
+      })
+
+      return {}
+    }
+  }
 }
 </script>
 

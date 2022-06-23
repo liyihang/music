@@ -105,7 +105,7 @@ export default {
       }
     })
     const palyBtnStyle = computed(() => {
-      console.log(display.value)
+      // console.log(display.value)
       return {
         display: display.value
       }
