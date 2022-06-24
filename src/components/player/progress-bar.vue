@@ -17,32 +17,32 @@ export default {
     progress: {
       type: Number,
       default: 0
-    },
-    setup(props) {
-      const offset = ref(0)
+    }
+  },
+  setup(props) {
+    const offset = ref(0)
 
-      // computed
-      const progressStyle = computed(() => {
-        console.log(offset.value)
-        return {
-          width: `${offset.value}px`
-        }
-      })
-      const btnStyle = computed(() => {
-        return {
-          transform: `translate3D(${offset.value}px,0,0)`
-        }
-      })
-      watch(props.progress, (newProgress) => {
-        console.log(props.progress)
-        const barWidth = this.$el.clientWidth - progressBtnWidth
-        offset.value = barWidth * newProgress
-      })
-
+    // computed
+    const progressStyle = computed(() => {
+      console.log(offset.value)
       return {
-        progressStyle,
-        btnStyle
+        width: `${offset.value}px`
       }
+    })
+    const btnStyle = computed(() => {
+      return {
+        transform: `translate3D(${offset.value}px,0,0)`
+      }
+    })
+    watch(props.progress, (newProgress) => {
+      console.log(props.progress)
+      const barWidth = this.$el.clientWidth - progressBtnWidth
+      offset.value = barWidth * newProgress
+    })
+
+    return {
+      progressStyle,
+      btnStyle
     }
   }
 }
@@ -51,22 +51,26 @@ export default {
 <style lang="scss" scoped>
 .progress-bar {
   height: 30px;
+
   .bar-inner {
     position: relative;
     top: 13px;
     height: 4px;
     background: rgba(0, 0, 0, 0.3);
+
     .progress {
       position: absolute;
       height: 100%;
       background: $color-theme;
     }
+
     .progress-btn-wrapper {
       position: absolute;
       left: -8px;
       top: -13px;
       width: 30px;
       height: 30px;
+
       .progress-btn {
         position: relative;
         top: 7px;

@@ -14,11 +14,11 @@
       <div class="bottom">
         <!-- progress-bar -->
         <div class="progress-wrapper">
-          <span class="time time-l">{{ currentTime }}</span>
+          <span class="time time-l">{{ formatTime(currentTime) }}</span>
           <div class="progress-bar-wrapper">
             <progress-bar :progress="progress"></progress-bar>
           </div>
-          <span class="time time-r">{{ currentSong.duration }}</span>
+          <span class="time time-r">{{ formatTime(currentSong.duration) }}</span>
         </div>
         <div class="operators">
           <div class="icon i-left">
@@ -58,6 +58,7 @@ import { useStore } from 'vuex'
 import useMode from './use-mode'
 import useFavorite from './useFavorite'
 import ProgressBar from './progress-bar'
+import { formatTime } from '@/assets/js/utils'
 export default {
   name: 'player',
   components: {
@@ -204,7 +205,9 @@ export default {
       // progress-bar
       progress,
       currentTime,
-      updateTime
+      updateTime,
+      // util function
+      formatTime
     }
   }
 }
