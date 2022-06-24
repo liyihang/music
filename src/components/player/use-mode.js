@@ -4,7 +4,6 @@ import { PLAYMODE } from '@/assets/js/constant'
 export default function useMode() {
   const store = useStore()
   const playMode = computed(() => store.state.playMode)
-  console.log(playMode.value)
   const modeIcon = computed(() => {
     const playModeVal = playMode.value
     return playModeVal === PLAYMODE.sequence

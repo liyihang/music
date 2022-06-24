@@ -57,11 +57,11 @@ import { computed, ref, watch } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import useMode from './use-mode'
 import useFavorite from './useFavorite'
-import progressBar from './progress-bar.vue'
+import ProgressBar from './progress-bar'
 export default {
   name: 'player',
   components: {
-    progressBar
+    ProgressBar
   },
   setup() {
     const audioRef = ref(null)

@@ -8,7 +8,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { computed, ref, watch } from 'vue'
 const progressBtnWidth = 16
@@ -24,12 +23,18 @@ export default {
 
       // computed
       const progressStyle = computed(() => {
-        return `width:${offset.value}px`
+        console.log(offset.value)
+        return {
+          width: `${offset.value}px`
+        }
       })
       const btnStyle = computed(() => {
-        return `transform:translate3D(${offset.value}px,0,0)`
+        return {
+          transform: `translate3D(${offset.value}px,0,0)`
+        }
       })
       watch(props.progress, (newProgress) => {
+        console.log(props.progress)
         const barWidth = this.$el.clientWidth - progressBtnWidth
         offset.value = barWidth * newProgress
       })
