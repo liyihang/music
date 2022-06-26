@@ -2,50 +2,56 @@
   <div class="progress-bar">
     <div class="bar-inner">
       <div class="progress" :style="progressStyle"></div>
-      <div class="progress-btn-wrapper" :style="btnStyle">
+      <div
+        class="progress-btn-wrapper"
+        :style="btnStyle"
+        @touchstart.prevent="onTouchStart"
+        @touchmove.prevent="onTouchMove"
+        @touchend.prevent="onTouchEnd"
+      >
         <div class="progress-btn"></div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { computed, ref, watch } from 'vue'
-const progressBtnWidth = 16
+import { computed, ref, watch } from "vue";
+const progressBtnWidth = 16;
 export default {
-  name: 'progress-bar',
+  name: "progress-bar",
   props: {
     progress: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   setup(props) {
-    const offset = ref(0)
+    const offset = ref(0);
 
     // computed
     const progressStyle = computed(() => {
-      console.log(offset.value)
+      console.log(offset.value);
       return {
-        width: `${offset.value}px`
-      }
-    })
+        width: `${offset.value}px`,
+      };
+    });
     const btnStyle = computed(() => {
       return {
-        transform: `translate3D(${offset.value}px,0,0)`
-      }
-    })
+        transform: `translate3D(${offset.value}px,0,0)`,
+      };
+    });
     watch(props.progress, (newProgress) => {
-      console.log(props.progress)
-      const barWidth = this.$el.clientWidth - progressBtnWidth
-      offset.value = barWidth * newProgress
-    })
+      console.log(props.progress);
+      const barWidth = this.$el.clientWidth - progressBtnWidth;
+      offset.value = barWidth * newProgress;
+    });
 
     return {
       progressStyle,
-      btnStyle
-    }
-  }
-}
+      btnStyle,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
