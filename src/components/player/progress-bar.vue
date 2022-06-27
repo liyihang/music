@@ -15,43 +15,46 @@
   </div>
 </template>
 <script>
-import { computed, ref, watch } from "vue";
-const progressBtnWidth = 16;
+import { computed, ref, watch } from 'vue'
+const progressBtnWidth = 16
 export default {
-  name: "progress-bar",
+  name: 'progress-bar',
   props: {
     progress: {
       type: Number,
-      default: 0,
-    },
+      default: 0
+    }
   },
   setup(props) {
-    const offset = ref(0);
+    const offset = ref(0)
 
     // computed
     const progressStyle = computed(() => {
-      console.log(offset.value);
+      console.log(offset.value)
       return {
-        width: `${offset.value}px`,
-      };
-    });
+        width: `${offset.value}px`
+      }
+    })
     const btnStyle = computed(() => {
       return {
-        transform: `translate3D(${offset.value}px,0,0)`,
-      };
-    });
+        transform: `translate3D(${offset.value}px,0,0)`
+      }
+    })
     watch(props.progress, (newProgress) => {
-      console.log(props.progress);
-      const barWidth = this.$el.clientWidth - progressBtnWidth;
-      offset.value = barWidth * newProgress;
-    });
-
+      console.log(props.progress)
+      const barWidth = this.$el.clientWidth - progressBtnWidth
+      offset.value = barWidth * newProgress
+    })
+    const onTouchStart = (e) => {
+    return ''
+    }
     return {
       progressStyle,
       btnStyle,
-    };
-  },
-};
+      onTouchStart
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
