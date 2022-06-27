@@ -2,13 +2,8 @@
   <div class="progress-bar">
     <div class="bar-inner">
       <div class="progress" :style="progressStyle"></div>
-      <div
-        class="progress-btn-wrapper"
-        :style="btnStyle"
-        @touchstart.prevent="onTouchStart"
-        @touchmove.prevent="onTouchMove"
-        @touchend.prevent="onTouchEnd"
-      >
+      <div class="progress-btn-wrapper" :style="btnStyle" @touchstart.prevent="onTouchStart"
+        @touchmove.prevent="onTouchMove" @touchend.prevent="onTouchEnd">
         <div class="progress-btn"></div>
       </div>
     </div>
@@ -46,7 +41,7 @@ export default {
       offset.value = barWidth * newProgress
     })
     const onTouchStart = (e) => {
-    return ''
+      return '123'
     }
     return {
       progressStyle,
