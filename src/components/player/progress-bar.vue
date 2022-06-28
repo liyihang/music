@@ -1,7 +1,7 @@
 <template>
   <div class="progress-bar" ref="progressEl">
     <div class="bar-inner">
-      <div class="progress" :style="progressStyle"></div>
+      <div class="progress" ref="progressItem" :style="progressStyle"></div>
       <div class="progress-btn-wrapper" :style="btnStyle" @touchstart.prevent="onTouchStart"
         @touchmove.prevent="onTouchMove" @touchend.prevent="onTouchEnd">
         <div class="progress-btn"></div>
@@ -25,6 +25,7 @@ export default {
     const offset = ref(0)
     // ref $el
     const progressEl = ref(null)
+    const progressItem = ref(null)
     // touch data
     const touch = reactive({
       x1: 0,
@@ -52,7 +53,7 @@ export default {
      */
     const onTouchStart = (e) => {
       touch.x1 = e.touches[0].pageX
-      touch.beginWith = progressEl.value.clientWidth
+      touch.beginWith = progressItem.value.clientWidth
       console.log(touch)
     }
     const onTouchMove = (e) => {
@@ -64,15 +65,16 @@ export default {
       // eslint-disable-next-line no-unused-expressions
       ctx.emit('progress-changing', progress)
     }
-    const onTouchEnd = (e) => {
+    const onTouchEnd = () => {
       const barWidth = progressEl.value.clientWidth - progressBtnWidth
-      const progress = touch.beginWith / barWidth
+      const progress = progressItem.value.clientWidth / barWidth
       ctx.emit('progress-changed', progress)
     }
     return {
       progressStyle,
       btnStyle,
       progressEl,
+      progressItem,
       onTouchStart,
       onTouchMove,
       onTouchEnd
