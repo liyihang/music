@@ -1,7 +1,7 @@
 <template>
-  <div class="progress-bar">
+  <div class="progress-bar" ref="progressEl">
     <div class="bar-inner">
-      <div class="progress" ref="progressEl" :style="progressStyle"></div>
+      <div class="progress" :style="progressStyle"></div>
       <div class="progress-btn-wrapper" :style="btnStyle" @touchstart.prevent="onTouchStart"
         @touchmove.prevent="onTouchMove" @touchend.prevent="onTouchEnd">
         <div class="progress-btn"></div>
@@ -39,6 +39,7 @@ export default {
       console.log(progressEl.value)
     })
     watch(() => props.progress, (newProgress) => {
+      console.log(progressEl.value.clientWidth)
       const barWidth = progressEl.value.clientWidth - progressBtnWidth
       offset.value = barWidth * newProgress
     })
