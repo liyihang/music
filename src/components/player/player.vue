@@ -59,8 +59,8 @@ export default {
   setup() {
     const audioRef = ref(null)
     const songReady = ref(false)
-
     const currentTime = ref(0)
+    let progressChanging = false
     const store = useStore()
     const { modeIcon, changeMode } = useMode()
     // favorite
@@ -175,16 +175,20 @@ export default {
      *@pramas get audio play time
      */
     const updateTime = (e) => {
-      currentTime.value = e.target.currentTime
+      if (!progressChanging) {
+        currentTime.value = e.target.currentTime
+      }
     }
     /**
      * progressbar emit handle func
      * @param progress
      */
     const onProgressChanging = (progress) => {
+      progressChanging = true
       currentTime.value = currentSong.value.duration * progress
     }
     const onProgressChanged = (progress) => {
+      progressChanging = false
       audioRef.value.currentTime = currentTime.value = currentSong.value.duration * progress
       if (!playing.value) {
         store.commit('setPlayingState', true)
