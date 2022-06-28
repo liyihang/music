@@ -1,7 +1,7 @@
 <template>
   <div class="progress-bar">
     <div class="bar-inner">
-      <div class="progress" :style="progressStyle"></div>
+      <div class="progress" ref="progressEl" :style="progressStyle"></div>
       <div class="progress-btn-wrapper" :style="btnStyle" @touchstart.prevent="onTouchStart"
         @touchmove.prevent="onTouchMove" @touchend.prevent="onTouchEnd">
         <div class="progress-btn"></div>
@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 const progressBtnWidth = 16
 export default {
   name: 'progress-bar',
@@ -22,10 +22,10 @@ export default {
   },
   setup(props) {
     const offset = ref(0)
+    const progressEl = ref(null)
 
     // computed
     const progressStyle = computed(() => {
-      console.log(offset.value)
       return {
         width: `${offset.value}px`
       }
@@ -35,9 +35,11 @@ export default {
         transform: `translate3D(${offset.value}px,0,0)`
       }
     })
-    watch(props.progress, (newProgress) => {
-      console.log(props.progress)
-      const barWidth = this.$el.clientWidth - progressBtnWidth
+    onMounted(() => {
+      console.log(progressEl.value)
+    })
+    watch(() => props.progress, (newProgress) => {
+      const barWidth = progressEl.value.clientWidth - progressBtnWidth
       offset.value = barWidth * newProgress
     })
     const onTouchStart = (e) => {
@@ -46,6 +48,7 @@ export default {
     return {
       progressStyle,
       btnStyle,
+      progressEl,
       onTouchStart
     }
   }
