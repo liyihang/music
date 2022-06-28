@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <audio ref="audioRef" @pause="pause" @canplay="ready" @error="error" @timeupdate="updateTime"></audio>
+    <audio ref="audioRef" @pause="pause" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
   </div>
 </template>
 
@@ -51,6 +51,7 @@ import useMode from './use-mode'
 import useFavorite from './useFavorite'
 import ProgressBar from './progress-bar'
 import { formatTime } from '@/assets/js/utils'
+import { PLAYMODE } from '@/assets/js/constant'
 export default {
   name: 'player',
   components: {
@@ -69,6 +70,7 @@ export default {
     const currentSong = computed(() => store.getters.currentSong)
     const playList = computed(() => store.state.playList)
     const currentIndex = computed(() => store.state.currentIndex)
+    const playMode = computed(() => store.state.playMode)
     // 播放状态
     const playing = computed(() => store.state.playing)
     const playIcon = computed(() => {
@@ -157,6 +159,7 @@ export default {
       const audioEl = audioRef.value
       audioEl.currentTime = 0
       audioEl.play()
+      store.commit('setPlayState', true)
     }
     // ready
     const ready = () => {
@@ -177,6 +180,14 @@ export default {
     const updateTime = (e) => {
       if (!progressChanging) {
         currentTime.value = e.target.currentTime
+      }
+    }
+    const end = () => {
+      currentTime.value = 0
+      if (playMode.value === PLAYMODE.loop) {
+        loop()
+      } else {
+        next()
       }
     }
     /**
@@ -215,6 +226,7 @@ export default {
       progress,
       currentTime,
       updateTime,
+      end,
       // util function
       formatTime,
       // progress bar emit
