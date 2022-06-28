@@ -10,19 +10,27 @@
   </div>
 </template>
 <script>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 const progressBtnWidth = 16
 export default {
   name: 'progress-bar',
+  emits: ['progress-changing', 'progress-changed'],
   props: {
     progress: {
       type: Number,
       default: 0
     }
   },
-  setup(props) {
+  setup(props, ctx) {
     const offset = ref(0)
+    // ref $el
     const progressEl = ref(null)
+    // touch data
+    const touch = reactive({
+      x1: 0,
+      beginWith: 0
+    })
+    // let { x1, beginWith } = toRefs(touch)
 
     // computed
     const progressStyle = computed(() => {
@@ -35,22 +43,39 @@ export default {
         transform: `translate3D(${offset.value}px,0,0)`
       }
     })
-    onMounted(() => {
-      console.log(progressEl.value)
-    })
     watch(() => props.progress, (newProgress) => {
-      console.log(progressEl.value.clientWidth)
       const barWidth = progressEl.value.clientWidth - progressBtnWidth
       offset.value = barWidth * newProgress
     })
+    /**
+     * method
+     */
     const onTouchStart = (e) => {
-      return '123'
+      touch.x1 = e.touches[0].pageX
+      touch.beginWith = progressEl.value.clientWidth
+      console.log(touch)
+    }
+    const onTouchMove = (e) => {
+      const delta = e.touches[0].pageX - touch.x1
+      const tempWidth = touch.beginWith + delta
+      const barWidth = progressEl.value.clientWidth - progressBtnWidth
+      const progress = Math.min(1, Math.max(tempWidth / barWidth, 0))
+      offset.value = barWidth * progress
+      // eslint-disable-next-line no-unused-expressions
+      ctx.emit('progress-changing', progress)
+    }
+    const onTouchEnd = (e) => {
+      const barWidth = progressEl.value.clientWidth - progressBtnWidth
+      const progress = touch.beginWith / barWidth
+      ctx.emit('progress-changed', progress)
     }
     return {
       progressStyle,
       btnStyle,
       progressEl,
-      onTouchStart
+      onTouchStart,
+      onTouchMove,
+      onTouchEnd
     }
   }
 }
