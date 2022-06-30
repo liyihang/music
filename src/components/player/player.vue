@@ -11,6 +11,16 @@
         <h1 class="title">{{ currentSong.name }}</h1>
         <h1 class="subtitle">{{ currentSong.singer }}</h1>
       </div>
+      <!-- cd -->
+      <div class="middle">
+        <div class="middle-l">
+          <div class="cd-wrapper">
+            <div class="cd">
+              <img :src="currentSong.pic" class="image" :class="CDstyle" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="bottom">
         <!-- progress-bar -->
         <div class="progress-wrapper">
@@ -52,6 +62,7 @@ import useFavorite from './useFavorite'
 import ProgressBar from './progress-bar'
 import { formatTime } from '@/assets/js/utils'
 import { PLAYMODE } from '@/assets/js/constant'
+import useCD from './use-cd'
 export default {
   name: 'player',
   components: {
@@ -64,6 +75,7 @@ export default {
     let progressChanging = false
     const store = useStore()
     const { modeIcon, changeMode } = useMode()
+    const { CDstyle } = useCD()
     // favorite
     const { getFavoriteIcon, toggleFavorite } = useFavorite()
     const fullScreen = computed(() => store.state.fullScreen)
@@ -231,7 +243,8 @@ export default {
       formatTime,
       // progress bar emit
       onProgressChanging,
-      onProgressChanged
+      onProgressChanged,
+      CDstyle
     }
   }
 }
