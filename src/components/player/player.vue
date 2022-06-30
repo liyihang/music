@@ -63,6 +63,7 @@ import ProgressBar from './progress-bar'
 import { formatTime } from '@/assets/js/utils'
 import { PLAYMODE } from '@/assets/js/constant'
 import useCD from './use-cd'
+import useLyric from './use-lyric'
 export default {
   name: 'player',
   components: {
@@ -115,6 +116,7 @@ export default {
       const audioEl = audioRef.value
       newPlaying ? audioEl.play() : audioEl.pause()
     })
+    useLyric()
     const goback = () => {
       store.commit('setFullScreen', false)
     }
