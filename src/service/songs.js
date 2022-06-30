@@ -20,3 +20,14 @@ export function processSongs(songs) {
       })
   })
 }
+/**
+ * get  Lyric
+ * @parmas mid
+ */
+export function getLyric(song) {
+  const mid = song.mid
+  return get('/api/getLyric', { mid }).then((result) => {
+    const lyric = result ? result.lyric : '[***]该歌曲暂时无法获取歌词'
+    return lyric
+  })
+}
