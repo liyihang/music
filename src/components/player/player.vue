@@ -15,8 +15,8 @@
       <div class="middle">
         <div class="middle-l">
           <div class="cd-wrapper">
-            <div class="cd">
-              <img :src="currentSong.pic" class="image" :class="CDstyle" alt="">
+            <div class="cd" ref="cdRef">
+              <img :src="currentSong.pic" class="image" :class="CDstyle" ref="imageRef" alt="">
             </div>
           </div>
         </div>
@@ -75,7 +75,7 @@ export default {
     let progressChanging = false
     const store = useStore()
     const { modeIcon, changeMode } = useMode()
-    const { CDstyle } = useCD()
+    const { CDstyle, cdRef, imageRef } = useCD()
     // favorite
     const { getFavoriteIcon, toggleFavorite } = useFavorite()
     const fullScreen = computed(() => store.state.fullScreen)
@@ -244,7 +244,9 @@ export default {
       // progress bar emit
       onProgressChanging,
       onProgressChanged,
-      CDstyle
+      CDstyle,
+      cdRef,
+      imageRef
     }
   }
 }
