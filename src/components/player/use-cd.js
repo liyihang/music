@@ -14,8 +14,9 @@ export default function useCD() {
     }
   })
   function asyncTransform(wrapper, inner) {
+    const wrapperTransform = getComputedStyle(wrapper).transform
     const innerTransform = getComputedStyle(inner).transform
-    wrapper.style.transform = innerTransform
+    wrapper.style.transform = wrapperTransform === 'none' ? innerTransform : innerTransform.concat('', wrapperTransform)
   }
   return { CDstyle, cdRef, imageRef }
 }
