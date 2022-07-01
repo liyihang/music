@@ -21,17 +21,17 @@
           </div>
         </div>
         <!-- lyric part -->
-        <scroll class="middle-r" ref="lyricScrollRef" :style="middleRStyle">
+        <scroll class="middle-r">
           <div class="lyric-wrapper">
-            <div v-if="currentLyric" ref="lyricListRef">
+            <div v-if="currentLyric">
               <p class="text" :class="{ 'current': currentLineNum === index }"
                 v-for="(line, index) in currentLyric.lines" :key="line.num">
                 {{ line.txt }}
               </p>
             </div>
-            <div class="pure-music" v-show="pureMusicLyric">
+            <!-- <div class="pure-music">
               <p>{{ pureMusicLyric }}</p>
-            </div>
+            </div> -->
           </div>
         </scroll>
       </div>
@@ -93,6 +93,8 @@ export default {
     const store = useStore()
     const { modeIcon, changeMode } = useMode()
     const { CDstyle, cdRef, imageRef } = useCD()
+    // lyric hooks
+    const { currentLyric, currentLineNum } = useLyric()
     // favorite
     const { getFavoriteIcon, toggleFavorite } = useFavorite()
     const fullScreen = computed(() => store.state.fullScreen)
@@ -132,7 +134,7 @@ export default {
       const audioEl = audioRef.value
       newPlaying ? audioEl.play() : audioEl.pause()
     })
-    useLyric()
+
     const goback = () => {
       store.commit('setFullScreen', false)
     }
@@ -264,7 +266,10 @@ export default {
       onProgressChanged,
       CDstyle,
       cdRef,
-      imageRef
+      imageRef,
+      // lyric part
+      currentLyric,
+      currentLineNum
     }
   }
 }

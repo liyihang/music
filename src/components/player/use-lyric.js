@@ -22,11 +22,11 @@ export default function useLyric() {
       return
     }
     // parse lyric
-    currentLyric.value = Lyric(lyric, handleLyric)
+    currentLyric.value = new Lyric(lyric, handleLyric)
   })
   // lyric logic function
-  function handleLyric() {
-
+  function handleLyric(lineNum) {
+    currentLineNum.value = lineNum
   }
   return {
     currentLyric,
