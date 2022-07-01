@@ -4,6 +4,8 @@ import { getLyric } from '@/service/songs'
 import Lyric from 'lyric-parser'
 export default function useLyric() {
   const currentLyric = ref(null)
+  // song line num
+  const currentLineNum = ref(0)
   const store = useStore()
   const currentSong = computed(() => store.getters.currentSong)
   watch(currentSong, async (newSong) => {
@@ -25,5 +27,9 @@ export default function useLyric() {
   // lyric logic function
   function handleLyric() {
 
+  }
+  return {
+    currentLyric,
+    currentLineNum
   }
 }

@@ -11,7 +11,7 @@
         <h1 class="title">{{ currentSong.name }}</h1>
         <h1 class="subtitle">{{ currentSong.singer }}</h1>
       </div>
-      <!-- cd -->
+      <!-- cd transform part-->
       <div class="middle">
         <div class="middle-l">
           <div class="cd-wrapper">
@@ -20,9 +20,23 @@
             </div>
           </div>
         </div>
+        <!-- lyric part -->
+        <scroll class="middle-r" ref="lyricScrollRef" :style="middleRStyle">
+          <div class="lyric-wrapper">
+            <div v-if="currentLyric" ref="lyricListRef">
+              <p class="text" :class="{ 'current': currentLineNum === index }"
+                v-for="(line, index) in currentLyric.lines" :key="line.num">
+                {{ line.txt }}
+              </p>
+            </div>
+            <div class="pure-music" v-show="pureMusicLyric">
+              <p>{{ pureMusicLyric }}</p>
+            </div>
+          </div>
+        </scroll>
       </div>
       <div class="bottom">
-        <!-- progress-bar -->
+        <!-- progress-bar part -->
         <div class="progress-wrapper">
           <span class="time time-l">{{ formatTime(currentTime) }}</span>
           <div class="progress-bar-wrapper">
@@ -64,10 +78,12 @@ import { formatTime } from '@/assets/js/utils'
 import { PLAYMODE } from '@/assets/js/constant'
 import useCD from './use-cd'
 import useLyric from './use-lyric'
+import Scroll from '@/components/base/scroll/scroll'
 export default {
   name: 'player',
   components: {
-    ProgressBar
+    ProgressBar,
+    Scroll
   },
   setup() {
     const audioRef = ref(null)
