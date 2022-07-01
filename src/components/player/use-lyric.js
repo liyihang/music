@@ -15,6 +15,15 @@ export default function useLyric() {
       song: newSong,
       lyric
     })
-    console.log(lyric)
+    // change song deal
+    if (currentSong.value.lyric !== lyric) {
+      return
+    }
+    // parse lyric
+    currentLyric.value = Lyric(lyric, handleLyric)
   })
+  // lyric logic function
+  function handleLyric() {
+
+  }
 }
