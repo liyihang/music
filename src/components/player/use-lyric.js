@@ -2,7 +2,7 @@ import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { getLyric } from '@/service/songs'
 import Lyric from 'lyric-parser'
-export default function useLyric() {
+export default function useLyric({ songReady, currentTime }) {
   const currentLyric = ref(null)
   // song line num
   const currentLineNum = ref(0)
@@ -23,13 +23,25 @@ export default function useLyric() {
     }
     // parse lyric
     currentLyric.value = new Lyric(lyric, handleLyric)
+    // if play show lyric
+    if (songReady.value) {
+      playLyric()
+    }
   })
+  // play lyric
+  function playLyric() {
+    const currentLyricVal = currentLyric.value
+    if (currentLyricVal) {
+      currentLyricVal.seek(currentTime.value * 1000)
+    }
+  }
   // lyric logic function
-  function handleLyric(lineNum) {
+  function handleLyric({ lineNum }) {
     currentLineNum.value = lineNum
   }
   return {
     currentLyric,
-    currentLineNum
+    currentLineNum,
+    playLyric
   }
 }

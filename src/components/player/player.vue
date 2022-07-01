@@ -94,7 +94,7 @@ export default {
     const { modeIcon, changeMode } = useMode()
     const { CDstyle, cdRef, imageRef } = useCD()
     // lyric hooks
-    const { currentLyric, currentLineNum } = useLyric()
+    const { currentLyric, currentLineNum, playLyric } = useLyric({ songReady, currentTime })
     // favorite
     const { getFavoriteIcon, toggleFavorite } = useFavorite()
     const fullScreen = computed(() => store.state.fullScreen)
@@ -199,6 +199,7 @@ export default {
         return
       }
       songReady.value = true
+      playLyric()
     }
     // error
     const error = () => {
@@ -347,7 +348,8 @@ export default {
       font-size: 0;
 
       .middle-l {
-        display: inline-block;
+        // display: inline-block;
+        display: none;
         vertical-align: top;
         position: relative;
         width: 100%;
