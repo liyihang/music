@@ -32,6 +32,8 @@ export default function useLyric({ songReady, currentTime }) {
   function playLyric() {
     const currentLyricVal = currentLyric.value
     if (currentLyricVal) {
+      // console.log(currentLyricVal)
+      // updates the current file cursor offset to the position (in bytes) specified when calling the method.
       currentLyricVal.seek(currentTime.value * 1000)
     }
   }

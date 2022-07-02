@@ -21,9 +21,9 @@
           </div>
         </div>
         <!-- lyric part -->
-        <scroll class="middle-r">
+        <scroll class="middle-r" ref="lyricScrollRef">
           <div class="lyric-wrapper">
-            <div v-if="currentLyric">
+            <div v-if="currentLyric" ref="lyricListRef">
               <p class="text" :class="{ 'current': currentLineNum === index }"
                 v-for="(line, index) in currentLyric.lines" :key="line.num">
                 {{ line.txt }}
