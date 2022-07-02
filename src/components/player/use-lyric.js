@@ -39,6 +39,15 @@ export default function useLyric({ songReady, currentTime }) {
       currentLyricVal.seek(currentTime.value * 1000)
     }
   }
+  // stop lyric
+  function stopLyric() {
+    const currentLyricVal = currentLyric.value
+    if (currentLyricVal) {
+      // console.log(currentLyricVal)
+      // updates the current file cursor offset to the position (in bytes) specified when calling the method.
+      currentLyricVal.stop()
+    }
+  }
   // lyric logic function
   function handleLyric({ lineNum }) {
     currentLineNum.value = lineNum
@@ -58,6 +67,7 @@ export default function useLyric({ songReady, currentTime }) {
     currentLyric,
     currentLineNum,
     playLyric,
+    stopLyric,
     lyricListRef,
     lyricScrollRef
   }
