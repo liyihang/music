@@ -83,6 +83,7 @@ import { computed, ref, watch } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import useMode from './use-mode'
 import useFavorite from './useFavorite'
+import useMiddleInterActive from './use-middle-interactive'
 import ProgressBar from './progress-bar'
 import { formatTime } from '@/assets/js/utils'
 import { PLAYMODE } from '@/assets/js/constant'
@@ -105,6 +106,8 @@ export default {
     const { CDstyle, cdRef, imageRef } = useCD()
     // lyric hooks
     const { currentLyric, currentLineNum, playLyric, stopLyric, lyricScrollRef, lyricListRef, pureMusic, playingLyric } = useLyric({ songReady, currentTime })
+    // cd lyric mode change
+    const { currentShow, middleLStyle, middleRStyle, onMiddleTouchStart, onMiddleTouchMove, onMiddleTouchEnd } = useMiddleInterActive()
     // favorite
     const { getFavoriteIcon, toggleFavorite } = useFavorite()
     const fullScreen = computed(() => store.state.fullScreen)
@@ -294,7 +297,14 @@ export default {
       lyricScrollRef,
       lyricListRef,
       pureMusic,
-      playingLyric
+      playingLyric,
+      // cd lyric mode change
+      currentShow,
+      middleLStyle,
+      middleRStyle,
+      onMiddleTouchStart,
+      onMiddleTouchMove,
+      onMiddleTouchEnd
     }
   }
 }
