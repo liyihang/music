@@ -19,6 +19,10 @@
               <img :src="currentSong.pic" class="image" :class="CDstyle" ref="imageRef" alt="">
             </div>
           </div>
+          <!-- play lyric -->
+          <div class="playing-lyric-wrapper">
+            <div class="playing-lyric">{{ playingLyric }}</div>
+          </div>
         </div>
         <!-- lyric part -->
         <scroll class="middle-r" ref="lyricScrollRef">
@@ -29,9 +33,9 @@
                 {{ line.txt }}
               </p>
             </div>
-            <!-- <div class="pure-music">
-              <p>{{ pureMusicLyric }}</p>
-            </div> -->
+            <div class="pure-music" v-show="pureMusic">
+              <p>{{ pureMusic }}</p>
+            </div>
           </div>
         </scroll>
       </div>
@@ -94,7 +98,7 @@ export default {
     const { modeIcon, changeMode } = useMode()
     const { CDstyle, cdRef, imageRef } = useCD()
     // lyric hooks
-    const { currentLyric, currentLineNum, playLyric, stopLyric, lyricScrollRef, lyricListRef } = useLyric({ songReady, currentTime })
+    const { currentLyric, currentLineNum, playLyric, stopLyric, lyricScrollRef, lyricListRef, pureMusic } = useLyric({ songReady, currentTime })
     // favorite
     const { getFavoriteIcon, toggleFavorite } = useFavorite()
     const fullScreen = computed(() => store.state.fullScreen)
@@ -282,7 +286,8 @@ export default {
       currentLyric,
       currentLineNum,
       lyricScrollRef,
-      lyricListRef
+      lyricListRef,
+      pureMusic
     }
   }
 }

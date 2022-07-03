@@ -8,6 +8,8 @@ export default function useLyric({ songReady, currentTime }) {
   const currentLineNum = ref(0)
   const lyricScrollRef = ref(null)
   const lyricListRef = ref(null)
+  // pure music
+  const pureMusic = ref('')
   const store = useStore()
   const currentSong = computed(() => store.getters.currentSong)
   watch(currentSong, async (newSong) => {
@@ -17,6 +19,7 @@ export default function useLyric({ songReady, currentTime }) {
     // change song lyric trigger bugs
     stopLyric()
     currentLyric.value = null
+    currentLineNum.value = 0
     const lyric = await getLyric(newSong)
     store.commit('addSongLyric', {
       song: newSong,
@@ -28,9 +31,14 @@ export default function useLyric({ songReady, currentTime }) {
     }
     // parse lyric
     currentLyric.value = new Lyric(lyric, handleLyric)
+    const hasLyric = currentLyric.value.lines.length
     // if play show lyric
-    if (songReady.value) {
-      playLyric()
+    if (hasLyric) {
+      if (songReady.value) {
+        playLyric()
+      }
+    } else {
+      pureMusic.value = lyric.replace(/\[\d{2}]:[\d{2}]:[\d{2}]/g, '')
     }
   })
   // play lyric
@@ -72,6 +80,7 @@ export default function useLyric({ songReady, currentTime }) {
     playLyric,
     stopLyric,
     lyricListRef,
-    lyricScrollRef
+    lyricScrollRef,
+    pureMusic
   }
 }
