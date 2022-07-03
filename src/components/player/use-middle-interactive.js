@@ -7,9 +7,24 @@ export default function useMiddleInterActive() {
   let currentView = 'cd'
   function onMiddleTouchStart(e) {
     touch.startX = e.touches[0].pageX
+    touch.startY = e.touches[0].pageY
+    touch.directionLocked = ''
   }
   function onMiddleTouchMove(e) {
     const deltaX = e.touches[0].pageX - touch.startX
+    const deltaY = e.touches[0].pageY - touch.startY
+
+    const absDeltaX = Math.abs(deltaX)
+    const absDeltaY = Math.abs(deltaY)
+
+    if (!touch.directionLocked) {
+      touch.directionLocked = absDeltaX >= absDeltaY ? 'h' : 'v'
+    }
+
+    if (touch.directionLocked === 'v') {
+      return
+    }
+
     const left = currentView === 'cd' ? 0 : -window.innerWidth
     const offsetWidth = Math.min(0, Math.max(-window.innerWidth, left + deltaX))
     touch.percent = Math.abs(offsetWidth / window.innerWidth)
@@ -28,12 +43,10 @@ export default function useMiddleInterActive() {
     }
     // edit style
     middleLStyle.value = {
-      opacity: 1 - touch.percent,
-      transitonDuration: '0ms'
+      opacity: 1 - touch.percent
     }
     middleRStyle.value = {
-      transform: `translate3D(${offsetWidth}px,0,0)`,
-      transitonDuration: '0ms'
+      transform: `translate3d(${offsetWidth}px,0,0)`
     }
   }
   function onMiddleTouchEnd() {
@@ -44,6 +57,7 @@ export default function useMiddleInterActive() {
       offsetWidth = 0
       opacity = 1
     } else {
+      currentView = 'lyric'
       offsetWidth = -window.innerWidth
       opacity = 0
     }
@@ -51,11 +65,11 @@ export default function useMiddleInterActive() {
     // edit style
     middleLStyle.value = {
       opacity,
-      transitonDuration: `${duration}ms`
+      transitionDuration: `${duration}ms`
     }
     middleRStyle.value = {
-      transform: `translate3D(${offsetWidth}px,0,0)`,
-      transitonDuration: `${duration}ms`
+      transform: `translate3d(${offsetWidth}px, 0, 0)`,
+      transitionDuration: `${duration}ms`
     }
   }
   return {
