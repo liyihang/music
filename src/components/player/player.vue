@@ -12,8 +12,9 @@
         <h1 class="subtitle">{{ currentSong.singer }}</h1>
       </div>
       <!-- cd transform part-->
-      <div class="middle">
-        <div class="middle-l">
+      <div class="middle" @touchstart.prevent="onMiddleTouchStart" @touchmove.prevent="onMiddleTouchMove"
+        @touchend.prevent="onMiddleTouchEnd">
+        <div class="middle-l" :style="middleLStyle">
           <div class="cd-wrapper">
             <div class="cd" ref="cdRef">
               <img :src="currentSong.pic" class="image" :class="CDstyle" ref="imageRef" alt="">
@@ -25,7 +26,7 @@
           </div>
         </div>
         <!-- lyric part -->
-        <scroll class="middle-r" ref="lyricScrollRef">
+        <scroll class="middle-r" ref="lyricScrollRef" :style="middleRStyle">
           <div class="lyric-wrapper">
             <div v-if="currentLyric" ref="lyricListRef">
               <p class="text" :class="{ 'current': currentLineNum === index }"
@@ -40,6 +41,11 @@
         </scroll>
       </div>
       <div class="bottom">
+        <!-- dot wrapper -->
+        <div class="dot-wrapper">
+          <span class="dot" :class="{ 'active': currentShow === 'cd' }"></span>
+          <span class="dot" :class="{ 'active': currentShow === 'lyric' }"></span>
+        </div>
         <!-- progress-bar part -->
         <div class="progress-wrapper">
           <span class="time time-l">{{ formatTime(currentTime) }}</span>
