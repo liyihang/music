@@ -14,6 +14,9 @@ export default function useLyric({ songReady, currentTime }) {
     if (!newSong.url || !newSong.id) {
       return
     }
+    // change song lyric trigger bugs
+    stopLyric()
+    currentLyric.value = null
     const lyric = await getLyric(newSong)
     store.commit('addSongLyric', {
       song: newSong,

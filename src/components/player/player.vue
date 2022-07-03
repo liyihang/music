@@ -237,6 +237,9 @@ export default {
     const onProgressChanging = (progress) => {
       progressChanging = true
       currentTime.value = currentSong.value.duration * progress
+      // drag progress bar
+      playLyric()
+      stopLyric()
     }
     const onProgressChanged = (progress) => {
       progressChanging = false
