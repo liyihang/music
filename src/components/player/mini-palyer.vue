@@ -15,8 +15,20 @@
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core'
+import { useStore } from 'vuex'
 export default {
-  name: 'mini-player'
+  name: 'mini-player',
+  setup() {
+    const store = useStore()
+    const fullscreen = computed(() => store.state.fullScreen)
+    const currentSong = computed(() => store.getters.currentSong)
+
+    return {
+      fullscreen,
+      currentSong
+    }
+  }
 }
 </script>
 
