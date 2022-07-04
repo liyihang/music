@@ -1,5 +1,5 @@
 <template>
-  <div class="player">
+  <div class="player" v-show="playList.length">
     <div class="normal-player" v-show="fullScreen">
       <div class="background">
         <img :src="currentSong.pic" alt="" />
@@ -268,6 +268,7 @@ export default {
       audioRef,
       fullScreen,
       currentSong,
+      playList,
       playIcon,
       disableCls,
       togglePlay,
