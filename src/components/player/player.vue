@@ -74,6 +74,7 @@
         </div>
       </div>
     </div>
+    <mini-palyer></mini-palyer>
     <audio ref="audioRef" @pause="pause" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
   </div>
 </template>
@@ -90,11 +91,13 @@ import { PLAYMODE } from '@/assets/js/constant'
 import useCD from './use-cd'
 import useLyric from './use-lyric'
 import Scroll from '@/components/base/scroll/scroll'
+import MiniPalyer from './mini-palyer.vue'
 export default {
   name: 'player',
   components: {
     ProgressBar,
-    Scroll
+    Scroll,
+    MiniPalyer
   },
   setup() {
     const audioRef = ref(null)

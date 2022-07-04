@@ -1,6 +1,6 @@
 <template>
   <transition name="mini">
-    <div class="mini-player" v-show="!fullscreen">
+    <div class="mini-player" v-show="!fullScreen">
       <div class="cd-wrapper">
         <div class="cd">
           <img height="40" width="40" :src="currentSong.pic" alt="">
@@ -15,17 +15,17 @@
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core'
 import { useStore } from 'vuex'
+import { computed } from 'vue'
 export default {
   name: 'mini-player',
   setup() {
     const store = useStore()
-    const fullscreen = computed(() => store.state.fullScreen)
+    const fullScreen = computed(() => store.state.fullScreen)
     const currentSong = computed(() => store.getters.currentSong)
 
     return {
-      fullscreen,
+      fullScreen,
       currentSong
     }
   }
