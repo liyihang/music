@@ -6,7 +6,7 @@
           <img height="40" width="40" :src="currentSong.pic" :class="CDstyle" ref="imageRef" alt="">
         </div>
       </div>
-      <div>
+      <div class="slider-wrapper">
         <h2 class="name">{{ currentSong.name }}</h2>
         <p class="desc">{{ currentSong.singer }}</p>
       </div>

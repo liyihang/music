@@ -50,7 +50,7 @@
         <div class="progress-wrapper">
           <span class="time time-l">{{ formatTime(currentTime) }}</span>
           <div class="progress-bar-wrapper">
-            <progress-bar :progress="progress" @progress-changing="onProgressChanging"
+            <progress-bar ref="barRef" :progress="progress" @progress-changing="onProgressChanging"
               @progress-changed="onProgressChanged"></progress-bar>
           </div>
           <span class="time time-r">{{ formatTime(currentSong.duration) }}</span>
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { computed, ref, watch } from '@vue/runtime-core'
+import { computed, nextTick, ref, watch } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 import useMode from './use-mode'
 import useFavorite from './useFavorite'
@@ -103,6 +103,7 @@ export default {
     const audioRef = ref(null)
     const songReady = ref(false)
     const currentTime = ref(0)
+    const barRef = ref(null)
     let progressChanging = false
     const store = useStore()
     const { modeIcon, changeMode } = useMode()
@@ -130,6 +131,13 @@ export default {
     // progress-bar
     const progress = computed(() => {
       return currentTime.value / currentSong.value.duration
+    })
+    // fullScreen  mini player change
+    watch(fullScreen, async (newFullScreen) => {
+      if (newFullScreen) {
+        await nextTick()
+        barRef.value.setOffset(progress.value)
+      }
     })
     watch(currentSong, (newSong) => {
       if (!newSong.id || !newSong.url) {

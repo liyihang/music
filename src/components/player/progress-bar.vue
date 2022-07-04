@@ -45,8 +45,9 @@ export default {
       }
     })
     watch(() => props.progress, (newProgress) => {
-      const barWidth = progressEl.value.clientWidth - progressBtnWidth
-      offset.value = barWidth * newProgress
+      // const barWidth = progressEl.value.clientWidth - progressBtnWidth
+      // offset.value = barWidth * newProgress
+      setOffset(newProgress)
     })
     /**
      * method
@@ -76,6 +77,11 @@ export default {
       const barWidth = progressEl.value.clientWidth - progressBtnWidth
       const progress = offsetWidth / barWidth
       ctx.emit('progress-changed', progress)
+    }
+    // fix mini-player change to fullScreen
+    function setOffset(progress) {
+      const barWidth = progressEl.value.clientWidth - progressBtnWidth
+      offset.value = barWidth * progress
     }
     return {
       progressStyle,
