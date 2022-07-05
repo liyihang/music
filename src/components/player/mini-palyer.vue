@@ -16,7 +16,7 @@
       </div>
       <div class="control">
         <progress-circle :radius="32" :progress="progress">
-          <icon class="icon-mini" :class="miniPlayIcon" @click.stop="togglePlay"></icon>
+          <i class="icon-mini" :class="miniPlayIcon" @click.stop="togglePlay"></i>
         </progress-circle>
       </div>
     </div>

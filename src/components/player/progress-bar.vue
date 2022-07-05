@@ -88,6 +88,7 @@ export default {
       btnStyle,
       progressEl,
       progressItem,
+      setOffset,
       onTouchStart,
       onTouchMove,
       onTouchEnd,

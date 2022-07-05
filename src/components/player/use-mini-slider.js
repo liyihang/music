@@ -30,6 +30,11 @@ export default function useMiniSlider() {
               loop: true
             }
           })
+          // watch slider change
+          sliderVal.on('slidePageChanged', (pageX) => {
+            store.commit('setCurrentIndex', pageX)
+            store.commit('setPlayState', true)
+          })
         } else {
           sliderVal.refresh()
         }
@@ -49,6 +54,7 @@ export default function useMiniSlider() {
     }
   })
   return {
+    slider,
     sliderWrapperRef
   }
 }
