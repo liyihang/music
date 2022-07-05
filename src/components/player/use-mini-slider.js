@@ -16,6 +16,7 @@ export default function useMiniSlider() {
   onMounted(() => {
     let sliderVal
     watch(sliderShow, async (newSliderShow) => {
+      console.log(newSliderShow)
       if (newSliderShow) {
         await nextTick()
         if (!sliderVal) {
@@ -24,17 +25,18 @@ export default function useMiniSlider() {
             scrollX: true,
             scrollY: false,
             momentum: false,
-            probeType: 2,
             bounce: false,
+            probeType: 2,
             slide: {
               autoplay: false,
               loop: true
             }
           })
+          console.log(sliderVal)
           // watch slider change
           sliderVal.on('slidePageChanged', ({ pageX }) => {
             store.commit('setCurrentIndex', pageX)
-            store.commit('setPlayingState', true)
+            // store.commit('setPlayingState', true)
           })
         } else {
           sliderVal.refresh()

@@ -105,7 +105,7 @@ export default {
     const audioRef = ref(null)
     const songReady = ref(false)
     const currentTime = ref(0)
-    // const barRef = ref(null)
+    const barRef = ref(null)
     let progressChanging = false
     const store = useStore()
     const { modeIcon, changeMode } = useMode()
@@ -138,7 +138,7 @@ export default {
     watch(fullScreen, async (newFullScreen) => {
       if (newFullScreen) {
         await nextTick()
-        // barRef.value.setOffset(progress.value)
+        barRef.value.setOffset(progress.value)
       }
     })
     watch(currentSong, (newSong) => {
