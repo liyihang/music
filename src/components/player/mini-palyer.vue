@@ -19,6 +19,10 @@
           <i class="icon-mini" :class="miniPlayIcon" @click.stop="togglePlay"></i>
         </progress-circle>
       </div>
+      <div class="control" @click.stop="showPlaylist">
+        <i class="icon-playlist"></i>
+      </div>
+      <playlist ref="playlistRef"></playlist>
     </div>
   </transition>
 </template>
@@ -28,9 +32,11 @@ import { computed } from 'vue'
 import useCD from './use-cd'
 import progressCircle from './progress-circle.vue'
 import useMiniSlider from './use-mini-slider'
+import playlist from './playlist.vue'
 export default {
   name: 'mini-player',
   components: {
+    playlist,
     progressCircle
   },
   props: {

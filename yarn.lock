@@ -959,6 +959,13 @@
   dependencies:
     "@better-scroll/core" "^2.4.2"
 
+"@better-scroll/pull-up@^2.4.2":
+  "integrity" "sha512-07Cke3oa96lN9/inxJZ0ixh0nBbbqxOi2IKcBGtD6dP+susiMcdhgd/c7zNRjXkwlw0vzTNfXTgExIOEWzLHYg=="
+  "resolved" "https://registry.npmmirror.com/@better-scroll/pull-up/-/pull-up-2.4.2.tgz"
+  "version" "2.4.2"
+  dependencies:
+    "@better-scroll/core" "^2.4.2"
+
 "@better-scroll/shared-utils@^2.4.2":
   "integrity" "sha512-Gy/Jfbpu+hq0u+PcjkTqyXGqAf+0dexTzEZ5IDXEVwJVLmd3cx8A73oTcAZ8QZgk4wSHvlMjXecSaptkhnNPEw=="
   "resolved" "https://registry.npmmirror.com/@better-scroll/shared-utils/-/shared-utils-2.4.2.tgz"
@@ -8805,6 +8812,11 @@
     "loader-runner" "^2.3.1"
     "loader-utils" "^1.1.0"
     "neo-async" "^2.6.0"
+
+"throttle-debounce@^5.0.0":
+  "integrity" "sha512-2iQTSgkkc1Zyk0MeVrt/3BvuOXYPl/R8Z0U2xxo9rjwNciaHDG3R+Lm6dh4EeUci49DanvBnuqI6jshoQQRGEg=="
+  "resolved" "https://registry.npmmirror.com/throttle-debounce/-/throttle-debounce-5.0.0.tgz"
+  "version" "5.0.0"
 
 "through@^2.3.6":
   "integrity" "sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg=="
