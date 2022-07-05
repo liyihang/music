@@ -21,19 +21,20 @@ export default function useMiniSlider() {
         if (!sliderVal) {
           sliderVal = slider.value = new BScroll(sliderWrapperRef.value, {
             click: true,
-            scrollX: false,
-            scrollY: true,
+            scrollX: true,
+            scrollY: false,
             momentum: false,
             probeType: 2,
+            bounce: false,
             slide: {
               autoplay: false,
               loop: true
             }
           })
           // watch slider change
-          sliderVal.on('slidePageChanged', (pageX) => {
+          sliderVal.on('slidePageChanged', ({ pageX }) => {
             store.commit('setCurrentIndex', pageX)
-            store.commit('setPlayState', true)
+            store.commit('setPlayingState', true)
           })
         } else {
           sliderVal.refresh()

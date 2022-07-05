@@ -6,7 +6,7 @@
           <img height="40" width="40" :src="currentSong.pic" :class="CDstyle" ref="imageRef" alt="">
         </div>
       </div>
-      <div class="slider-wrapper" ref="sliderWrapperRef">
+      <div ref="sliderWrapperRef" class="slider-wrapper">
         <div class="slider-group">
           <div class="slider-page">
             <h2 class="name">{{ currentSong.name }}</h2>
@@ -172,7 +172,7 @@ export default {
   &.mini-enter-from,
   &.mini-leave-to {
     opacity: 0;
-    transform: translate3d(0, 100%, 0)
+    transform: translate3d(0, 100%, 0);
   }
 }
 </style>
