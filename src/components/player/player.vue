@@ -74,7 +74,7 @@
         </div>
       </div>
     </div>
-    <mini-palyer></mini-palyer>
+    <mini-palyer :progress="progress" :toggle-play="togglePlay"></mini-palyer>
     <audio ref="audioRef" @pause="pause" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
   </div>
 </template>
