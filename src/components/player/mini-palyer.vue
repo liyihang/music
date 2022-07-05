@@ -7,8 +7,12 @@
         </div>
       </div>
       <div class="slider-wrapper">
-        <h2 class="name">{{ currentSong.name }}</h2>
-        <p class="desc">{{ currentSong.singer }}</p>
+        <div class="slider-group">
+          <div class="slider-page">
+            <h2 class="name">{{ currentSong.name }}</h2>
+            <p class="desc">{{ currentSong.singer }}</p>
+          </div>
+        </div>
       </div>
       <div class="control">
         <progress-circle :radius="32" :progress="progress">
