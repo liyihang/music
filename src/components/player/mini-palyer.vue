@@ -28,7 +28,7 @@
 </template>
 <script>
 import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import useCD from './use-cd'
 import progressCircle from './progress-circle.vue'
 import useMiniSlider from './use-mini-slider'
@@ -47,6 +47,7 @@ export default {
     togglePlay: Function
   },
   setup() {
+    const playlistRef = ref(null)
     const store = useStore()
     const fullScreen = computed(() => store.state.fullScreen)
     const currentSong = computed(() => store.getters.currentSong)
@@ -61,11 +62,15 @@ export default {
     function showNormalPlayer() {
       store.commit('setFullScreen', true)
     }
-
+    function showPlaylist() {
+      playlistRef.value.show()
+    }
     return {
+      playlistRef,
       fullScreen,
       currentSong,
       showNormalPlayer,
+      showPlaylist,
       cdRef,
       CDstyle,
       imageRef,
