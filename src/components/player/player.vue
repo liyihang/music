@@ -1,6 +1,6 @@
 <template>
   <div class="player" v-show="playList.length">
-    <transition name="normal">
+    <transition name="normal" @enter="enter" @after-enter="afterEnter" @leave="leave" @after-leave="afterLeave">
       <div class="normal-player" v-show="fullScreen">
         <div class="background">
           <img :src="currentSong.pic" alt="" />
@@ -16,7 +16,7 @@
         <div class="middle" @touchstart.prevent="onMiddleTouchStart" @touchmove.prevent="onMiddleTouchMove"
           @touchend.prevent="onMiddleTouchEnd">
           <div class="middle-l" :style="middleLStyle">
-            <div class="cd-wrapper">
+            <div class="cd-wrapper" ref="cdWrapperRef">
               <div class="cd" ref="cdRef">
                 <img :src="currentSong.pic" class="image" :class="CDstyle" ref="imageRef" alt="">
               </div>
@@ -92,6 +92,7 @@ import { formatTime } from '@/assets/js/utils'
 import { PLAYMODE } from '@/assets/js/constant'
 import useCD from './use-cd'
 import useLyric from './use-lyric'
+import useAnimation from './use-animation'
 import Scroll from '@/components/base/scroll/scroll'
 import MiniPalyer from './mini-palyer.vue'
 export default {
@@ -116,6 +117,8 @@ export default {
     const { currentShow, middleLStyle, middleRStyle, onMiddleTouchStart, onMiddleTouchMove, onMiddleTouchEnd } = useMiddleInterActive()
     // favorite
     const { getFavoriteIcon, toggleFavorite } = useFavorite()
+    // animation
+    const { cdWrapperRef, enter, afterEnter, leave, afterLeave } = useAnimation()
     const fullScreen = computed(() => store.state.fullScreen)
     const currentSong = computed(() => store.getters.currentSong)
     const playList = computed(() => store.state.playList)
@@ -318,7 +321,13 @@ export default {
       middleRStyle,
       onMiddleTouchStart,
       onMiddleTouchMove,
-      onMiddleTouchEnd
+      onMiddleTouchEnd,
+      // animation
+      cdWrapperRef,
+      enter,
+      afterEnter,
+      leave,
+      afterLeave
     }
   }
 }
