@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import { debounce } from 'throttle-debounce'
-
 export default {
   name: 'search-input',
   props: {
@@ -21,20 +19,6 @@ export default {
   data() {
     return {
       query: this.modelValue
-    }
-  },
-  created() {
-    this.$watch('query', debounce(300, (newQuery) => {
-      this.$emit('update:modelValue', newQuery.trim())
-    }))
-
-    this.$watch('modelValue', (newVal) => {
-      this.query = newVal
-    })
-  },
-  methods: {
-    clear() {
-      this.query = ''
     }
   }
 }
