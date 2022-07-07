@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { toRefs } from 'vue'
 export default {
   name: 'search-input',
   props: {
@@ -16,9 +17,11 @@ export default {
       default: '搜索歌曲、歌手'
     }
   },
-  data() {
+  setup(props) {
+    const { modelValue } = toRefs(props)
+    const query = modelValue.value
     return {
-      query: this.modelValue
+      query
     }
   }
 }

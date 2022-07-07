@@ -7,11 +7,16 @@
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
 import SearchInput from '../components/search/search-input'
 export default {
   name: 'search',
   components: {
     SearchInput
+  },
+  setup() {
+    const query = ref('')
+    return { query }
   }
 }
 </script>
