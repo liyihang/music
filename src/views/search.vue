@@ -9,6 +9,7 @@
 <script>
 import { ref } from '@vue/reactivity'
 import SearchInput from '../components/search/search-input'
+import { watch } from '@vue/runtime-core'
 export default {
   name: 'search',
   components: {
@@ -16,6 +17,9 @@ export default {
   },
   setup() {
     const query = ref('')
+    watch(query, (val) => {
+      console.log(val)
+    })
     return { query }
   }
 }
