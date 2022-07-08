@@ -7,6 +7,8 @@
 </template>
 
 <script>
+// import { debounce } from 'throttle-debounce'
+import { ref, watch } from '@vue/runtime-core'
 export default {
   name: 'search-input',
   props: {
@@ -16,15 +18,19 @@ export default {
       default: '搜索歌曲、歌手'
     }
   },
-  data() {
-    return {
-      query: this.modelValue
-    }
-  },
-  watch: {
-    query(newQuery) {
-      this.$emit('update:modelValue', newQuery.trim())
-    }
+  setup(props, ctx) {
+    const query = ref('')
+    watch(() => props.modelValue, (newQuery) => {
+      console.log(newQuery)
+      ctx.emit('update:modelValue', newQuery.trim())
+    })
+    return { query }
+    // },
+    // watch: {
+    //   query(newQuery) {
+    //     this.$emit('update:modelValue', newQuery.trim())
+    //   }
+    // }
   }
 }
 </script>
