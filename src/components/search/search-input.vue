@@ -7,7 +7,7 @@
 </template>
 
 <script>
-// import { debounce } from 'throttle-debounce'
+import { debounce } from 'throttle-debounce'
 import { ref, watch } from '@vue/runtime-core'
 export default {
   name: 'search-input',
@@ -20,11 +20,13 @@ export default {
   },
   setup(props, ctx) {
     const query = ref('')
-    watch(() => props.modelValue, (newQuery) => {
-      console.log(newQuery)
+    watch(query, debounce(500, (newQuery) => {
       ctx.emit('update:modelValue', newQuery.trim())
-    })
-    return { query }
+    }))
+    const clear = () => {
+      query.value = ''
+    }
+    return { query, clear }
     // },
     // watch: {
     //   query(newQuery) {
