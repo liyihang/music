@@ -20,9 +20,14 @@ export default {
   },
   setup(props, ctx) {
     const query = ref('')
+    // sent to parent component
     watch(query, debounce(500, (newQuery) => {
       ctx.emit('update:modelValue', newQuery.trim())
     }))
+    // parent component sent query word to self
+    watch(() => props.modelValue, (newVal) => {
+      query.value = newVal
+    })
     const clear = () => {
       query.value = ''
     }

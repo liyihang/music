@@ -3,13 +3,23 @@
     <div class="search-input-wrapper">
       <search-input v-model="query"></search-input>
     </div>
+    <div class="search-content">
+      <div class="hot-key">
+        <h1 class="title">热门搜索</h1>
+        <ul>
+          <li class="item" v-for="item in hotKeys" :key="item.id">
+            <span>{{ item.key }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref } from '@vue/reactivity'
+import { ref } from 'vue'
 import SearchInput from '../components/search/search-input'
-import { watch } from '@vue/runtime-core'
+import { getHotKeys } from '../service/search'
 export default {
   name: 'search',
   components: {
@@ -17,10 +27,11 @@ export default {
   },
   setup() {
     const query = ref('')
-    watch(query, (val) => {
-      console.log(val)
+    const hotKeys = ref([])
+    getHotKeys().then((result) => {
+      hotKeys.value = result.hotKeys
     })
-    return { query }
+    return { query, hotKeys }
   }
 }
 </script>
