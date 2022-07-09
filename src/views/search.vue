@@ -4,11 +4,11 @@
       <search-input v-model="query"></search-input>
     </div>
     <div class="search-content">
-      <div class="hot-key">
+      <div class="hot-keys">
         <h1 class="title">热门搜索</h1>
         <ul>
-          <li class="item" v-for="item in hotKeys" :key="item.id">
-            <span>{{ item.key }}</span>
+          <li class="item" v-for="(item) in hotKeys" :key="item.index" @click="addQuery(item)">
+            <span>{{ item }}</span>
           </li>
         </ul>
       </div>
@@ -27,11 +27,19 @@ export default {
   },
   setup() {
     const query = ref('')
+    const noHotKeys = ['稻香', '一路向北', '海阔天空']
     const hotKeys = ref([])
     getHotKeys().then((result) => {
-      hotKeys.value = result.hotKeys
+      if (!result) {
+        hotKeys.value = noHotKeys
+      } else {
+        hotKeys.value = result.hotKeys
+      }
     })
-    return { query, hotKeys }
+    const addQuery = (s) => {
+      query.value = s
+    }
+    return { query, hotKeys, addQuery }
   }
 }
 </script>
