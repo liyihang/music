@@ -1,5 +1,5 @@
 <template>
-  <div ref="rootRef" class="suggest" v-loading:[loadingText]="!singer && !songs.length">
+  <div ref="rootRef" class="suggest" v-loading:[loadingText]="loading" v-no-result:[noResultText]="noResult">
     <ul class="suggest-list">
       <li class="suggest-item" v-if="singer" @click="selectSinger(singer)">
         <div class="icon">
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { search } from '../../service/search'
 import { processSongs } from '../../service/songs'
 export default {
@@ -43,11 +43,18 @@ export default {
     const hasMore = ref(true)
     const page = ref(1)
     const loadingText = ref('')
+    const noResultText = ref('抱歉，暂无结果')
     watch(() => props.query, async (newQuery) => {
       if (!newQuery) {
         return
       }
       await searchFirst()
+    })
+    const loading = computed(() => {
+      return !singer.value && !songs.value.length
+    })
+    const noResult = computed(() => {
+      return !singer.value && !songs.value.length && !hasMore.value
     })
     // init search
     const searchFirst = async () => {
@@ -63,7 +70,10 @@ export default {
     return {
       singer,
       songs,
-      loadingText
+      loadingText,
+      noResultText,
+      loading,
+      noResult
     }
   }
 }
