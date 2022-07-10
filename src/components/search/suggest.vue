@@ -1,5 +1,5 @@
 <template>
-  <div ref="rootRef" class="suggest">
+  <div ref="rootRef" class="suggest" v-loading:[loadingText]="!singer && !songs.length">
     <ul class="suggest-list">
       <li class="suggest-item" v-if="singer" @click="selectSinger(singer)">
         <div class="icon">
@@ -42,6 +42,7 @@ export default {
     const songs = ref([])
     const hasMore = ref(true)
     const page = ref(1)
+    const loadingText = ref('')
     watch(() => props.query, async (newQuery) => {
       if (!newQuery) {
         return
@@ -61,7 +62,8 @@ export default {
     }
     return {
       singer,
-      songs
+      songs,
+      loadingText
     }
   }
 }
