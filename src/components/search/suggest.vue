@@ -38,7 +38,8 @@ export default {
       default: true
     }
   },
-  setup(props) {
+  emits: ['select-song'],
+  setup(props, { emit }) {
     const singer = ref(null)
     const songs = ref([])
     const hasMore = ref(true)
@@ -100,6 +101,9 @@ export default {
         manualLoading.value = false
       }
     }
+    function selectSong(song) {
+      emit('select-song', song)
+    }
     return {
       singer,
       songs,
@@ -108,7 +112,8 @@ export default {
       loading,
       noResult,
       rootRef,
-      pullUpLoading
+      pullUpLoading,
+      selectSong
     }
   }
 }
