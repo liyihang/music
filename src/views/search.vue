@@ -14,8 +14,13 @@
       </div>
     </div>
     <div class="search-result" v-show="query">
-      <suggest :query="query" @select-song="selectSong"></suggest>
+      <suggest :query="query" @select-song="selectSong" @select-singer="selectSinger"></suggest>
     </div>
+    <router-view v-slot="{ Component }">
+      <transition name="slide" mode="out-in" appear>
+        <component :is="Component" :singer="selectedSinger"></component>
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -25,6 +30,9 @@ import SearchInput from '../components/search/search-input'
 import { getHotKeys } from '../service/search'
 import Suggest from '../components/search/suggest.vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import storage from 'good-storage'
+import { SINGER_KEY } from '@/assets/js/constant.js'
 export default {
   name: 'search',
   components: {
@@ -33,9 +41,11 @@ export default {
   },
   setup() {
     const query = ref('')
-    const noHotKeys = ['稻香', '一路向北', '海阔天空']
+    const noHotKeys = ['稻香', '一路向北', '海阔天空', '周杰伦']
     const hotKeys = ref([])
+    const selectedSinger = ref(null)
     const store = useStore()
+    const router = useRouter()
     getHotKeys().then((result) => {
       if (!result) {
         hotKeys.value = noHotKeys
@@ -49,11 +59,23 @@ export default {
     function selectSong(song) {
       store.dispatch('addSong', song)
     }
+    function selectSinger(singer) {
+      selectedSinger.value = singer
+      cacheSinger(singer)
+      router.push({
+        path: `/search/${singer.mid}`
+      })
+    }
+    function cacheSinger(singer) {
+      storage.session.set(SINGER_KEY, singer)
+    }
     return {
       query,
       hotKeys,
       addQuery,
-      selectSong
+      selectSong,
+      selectSinger,
+      selectedSinger
     }
   }
 }
