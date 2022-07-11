@@ -16,6 +16,7 @@ module.exports = {
     'space-before-function-paren': 0,
     'indent': 0,
     'quotes': [1, 'single'],
-    'arrow-spacing': 2
+    'arrow-spacing': 2,
+    'no-use-before-define': 'off'
   }
 }
