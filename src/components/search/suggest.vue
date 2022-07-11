@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { search } from '../../service/search'
 import { processSongs } from '../../service/songs'
 import usePullUpLoad from './use-pull-up-load'
@@ -46,7 +46,7 @@ export default {
     const loadingText = ref('')
     const noResultText = ref('抱歉，暂无结果')
     // console.log(searchFirst)
-    const { rootRef, isPullUpLoad } = usePullUpLoad(searchMore)
+    const { scroll, rootRef, isPullUpLoad } = usePullUpLoad(searchMore)
 
     watch(() => props.query, async (newQuery) => {
       if (!newQuery) {
@@ -65,6 +65,7 @@ export default {
     })
     // init search
     const searchFirst = async () => {
+      if (!props.query) return
       page.value = 1
       songs.value = []
       singer.value = null
@@ -73,6 +74,8 @@ export default {
       songs.value = await processSongs(result.songs)
       singer.value = result.singer
       hasMore.value = result.hasMore
+      await nextTick()
+      await makeItScrollable()
     }
     async function searchMore() {
       if (!hasMore.value || !props.query) {
@@ -82,6 +85,13 @@ export default {
       const result = await search(props.query, page.value, props.showSinger)
       songs.value = songs.value.concat(await processSongs(result.songs))
       hasMore.value = result.hasMore
+      await nextTick()
+      await makeItScrollable()
+    }
+    async function makeItScrollable() {
+      if (scroll.value.maxScrollY > -1) {
+        await searchMore()
+      }
     }
     return {
       singer,
