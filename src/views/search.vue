@@ -12,6 +12,12 @@
           </li>
         </ul>
       </div>
+      <div class="search-content">
+        <h1 class="title">
+          <span class="text">搜索历史</span>
+        </h1>
+        <search-list :searches="searchHistory"></search-list>
+      </div>
     </div>
     <div class="search-result" v-show="query">
       <suggest :query="query" @select-song="selectSong" @select-singer="selectSinger"></suggest>
@@ -25,10 +31,11 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import SearchInput from '../components/search/search-input'
 import { getHotKeys } from '../service/search'
 import Suggest from '../components/search/suggest.vue'
+import SearchList from '../components/search/search-list'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import storage from 'good-storage'
@@ -37,7 +44,8 @@ export default {
   name: 'search',
   components: {
     SearchInput,
-    Suggest
+    Suggest,
+    SearchList
   },
   setup() {
     const query = ref('')
@@ -46,6 +54,7 @@ export default {
     const selectedSinger = ref(null)
     const store = useStore()
     const router = useRouter()
+    const searchHistory = computed(() => store.state.searchHistory)
     getHotKeys().then((result) => {
       if (!result) {
         hotKeys.value = noHotKeys
@@ -75,7 +84,8 @@ export default {
       addQuery,
       selectSong,
       selectSinger,
-      selectedSinger
+      selectedSinger,
+      searchHistory
     }
   }
 }
