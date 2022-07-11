@@ -45,8 +45,8 @@ export default {
     const page = ref(1)
     const loadingText = ref('')
     const noResultText = ref('抱歉，暂无结果')
+    const manualLoading = ref(false)
     // console.log(searchFirst)
-    const { scroll, rootRef, isPullUpLoad } = usePullUpLoad(searchMore)
 
     watch(() => props.query, async (newQuery) => {
       if (!newQuery) {
@@ -63,6 +63,11 @@ export default {
     const pullUpLoading = computed(() => {
       return isPullUpLoad.value && hasMore.value
     })
+    const preventPullUpload = computed(() => {
+      return loading.value || manualLoading.value
+    })
+    const { scroll, rootRef, isPullUpLoad } = usePullUpLoad(searchMore, preventPullUpload)
+
     // init search
     const searchFirst = async () => {
       if (!props.query) return
@@ -89,8 +94,10 @@ export default {
       await makeItScrollable()
     }
     async function makeItScrollable() {
+      manualLoading.value = true
       if (scroll.value.maxScrollY > -1) {
         await searchMore()
+        manualLoading.value = false
       }
     }
     return {
