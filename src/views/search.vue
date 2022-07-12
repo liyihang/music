@@ -13,13 +13,15 @@
             </li>
           </ul>
         </div>
-        <div class="search-history" v-show="searchHistory.length">
+        <div class="search-history" v-show="searchHistory && searchHistory.length">
           <h1 class="title">
             <span class="text">搜索历史</span>
-            <span class="clear">
+            <span class="clear" @click="showConfirm">
               <i class="icon-clear"></i>
             </span>
           </h1>
+          <confirm ref="confirmRef" text="是否清空所有搜索历史" confirm-btn-text="清空" @confirm="clearSearch">
+          </confirm>
           <search-list :searches="searchHistory" @select="addQuery" @delete="deleteSearch"></search-list>
         </div>
       </div>
@@ -47,13 +49,15 @@ import storage from 'good-storage'
 import { SINGER_KEY } from '@/assets/js/constant.js'
 import useSearchHistory from '@/components/search/use-search-history'
 import Scroll from '../components/wrap-scroll'
+import confirm from '../components/base/confirm/confirm'
 export default {
   name: 'search',
   components: {
     SearchInput,
     Suggest,
     SearchList,
-    Scroll
+    Scroll,
+    confirm
   },
   setup() {
     const query = ref('')
@@ -61,9 +65,10 @@ export default {
     const hotKeys = ref([])
     const selectedSinger = ref(null)
     const scrollRef = ref(null)
+    const confirmRef = ref(null)
     const store = useStore()
     const router = useRouter()
-    const { saveSearch, deleteSearch } = useSearchHistory()
+    const { saveSearch, deleteSearch, clearSearch } = useSearchHistory()
     const searchHistory = computed(() => store.state.searchHistory)
     getHotKeys().then((result) => {
       if (!result) {
@@ -99,6 +104,9 @@ export default {
     function cacheSinger(singer) {
       storage.session.set(SINGER_KEY, singer)
     }
+    function showConfirm() {
+      confirmRef.value.show()
+    }
     return {
       query,
       hotKeys,
@@ -108,7 +116,10 @@ export default {
       selectedSinger,
       searchHistory,
       deleteSearch,
-      scrollRef
+      scrollRef,
+      confirmRef,
+      showConfirm,
+      clearSearch
     }
   }
 }
