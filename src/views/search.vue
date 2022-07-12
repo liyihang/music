@@ -12,7 +12,7 @@
           </li>
         </ul>
       </div>
-      <div class="search-content">
+      <div class="search-history" v-show="searchHistory.length">
         <h1 class="title">
           <span class="text">搜索历史</span>
         </h1>
@@ -40,6 +40,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import storage from 'good-storage'
 import { SINGER_KEY } from '@/assets/js/constant.js'
+import useSearchHistory from '../components/search/use-search-history'
 export default {
   name: 'search',
   components: {
@@ -54,6 +55,7 @@ export default {
     const selectedSinger = ref(null)
     const store = useStore()
     const router = useRouter()
+    const { saveSearch } = useSearchHistory()
     const searchHistory = computed(() => store.state.searchHistory)
     getHotKeys().then((result) => {
       if (!result) {
@@ -66,9 +68,11 @@ export default {
       query.value = s
     }
     function selectSong(song) {
+      saveSearch(query.value)
       store.dispatch('addSong', song)
     }
     function selectSinger(singer) {
+      saveSearch(query.value)
       selectedSinger.value = singer
       cacheSinger(singer)
       router.push({
