@@ -16,7 +16,7 @@
         <h1 class="title">
           <span class="text">搜索历史</span>
         </h1>
-        <search-list :searches="searchHistory"></search-list>
+        <search-list :searches="searchHistory" @select="addQuery" @delete="deleteSearch"></search-list>
       </div>
     </div>
     <div class="search-result" v-show="query">
@@ -32,15 +32,15 @@
 
 <script>
 import { computed, ref } from 'vue'
-import SearchInput from '../components/search/search-input'
-import { getHotKeys } from '../service/search'
-import Suggest from '../components/search/suggest.vue'
-import SearchList from '../components/search/search-list'
+import SearchInput from '@/components/search/search-input'
+import { getHotKeys } from '@/service/search'
+import Suggest from '@/components/search/suggest.vue'
+import SearchList from '@/components/base/search-list/search-list'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import storage from 'good-storage'
 import { SINGER_KEY } from '@/assets/js/constant.js'
-import useSearchHistory from '../components/search/use-search-history'
+import useSearchHistory from '@/components/search/use-search-history'
 export default {
   name: 'search',
   components: {
@@ -55,7 +55,7 @@ export default {
     const selectedSinger = ref(null)
     const store = useStore()
     const router = useRouter()
-    const { saveSearch } = useSearchHistory()
+    const { saveSearch, deleteSearch } = useSearchHistory()
     const searchHistory = computed(() => store.state.searchHistory)
     getHotKeys().then((result) => {
       if (!result) {
@@ -89,7 +89,8 @@ export default {
       selectSong,
       selectSinger,
       selectedSinger,
-      searchHistory
+      searchHistory,
+      deleteSearch
     }
   }
 }
@@ -133,7 +134,7 @@ export default {
     }
 
     .search-history {
-      position: relative;
+      position: fixed;
       margin: 0 20px;
 
       .title {
