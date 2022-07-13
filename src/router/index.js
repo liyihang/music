@@ -4,6 +4,7 @@ import Singer from '@/views/singer'
 import Search from '@/views/search'
 import TopList from '@/views/top-list'
 import SingerDetail from '@/views/singer-detail'
+import UserCenter from '@/views/user-center'
 const TopDetail = () => import('@/views/top-detail'/* webpackChunkName: "top-detail" */)
 
 const routes = [
@@ -47,7 +48,7 @@ const routes = [
   },
   {
     path: '/user',
-    components: TopList
+    components: UserCenter
   }
 ]
 
