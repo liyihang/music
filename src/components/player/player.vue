@@ -95,6 +95,7 @@ import useLyric from './use-lyric'
 import useAnimation from './use-animation'
 import Scroll from '@/components/base/scroll/scroll'
 import MiniPalyer from './mini-palyer.vue'
+import usePlayHistory from './use-play-history'
 export default {
   name: 'player',
   components: {
@@ -117,6 +118,8 @@ export default {
     const { currentShow, middleLStyle, middleRStyle, onMiddleTouchStart, onMiddleTouchMove, onMiddleTouchEnd } = useMiddleInterActive()
     // favorite
     const { getFavoriteIcon, toggleFavorite } = useFavorite()
+    // playHistory
+    const { savePlay } = usePlayHistory()
     // animation
     const { cdWrapperRef, enter, afterEnter, leave, afterLeave } = useAnimation()
     const fullScreen = computed(() => store.state.fullScreen)
@@ -236,6 +239,7 @@ export default {
       }
       songReady.value = true
       playLyric()
+      savePlay(currentSong.value)
     }
     // error
     const error = () => {
