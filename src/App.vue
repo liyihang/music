@@ -1,10 +1,16 @@
 <template>
   <my-header></my-header>
   <tab></tab>
-  <router-view></router-view>
+  <router-view v-slot="{ Component }">
+    <keep-alive>
+      <component :is="Component"></component>
+    </keep-alive>
+  </router-view>
   <router-view name="user" v-slot="{ Component }">
     <transition name="slide" mode="out-in" appear>
-      <component :is="Component"></component>
+      <keep-alive>
+        <component :is="Component"></component>
+      </keep-alive>
     </transition>
   </router-view>
   <player></player>
