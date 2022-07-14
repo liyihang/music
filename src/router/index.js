@@ -48,7 +48,7 @@ const routes = [
   },
   {
     path: '/user',
-    components: UserCenter
+    component: UserCenter
   }
 ]
 

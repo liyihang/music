@@ -1,24 +1,24 @@
 <template>
-  <div class="user-center">
-    <div class="back">
+  <div class="user-center" v-no-result:[noResultText]="noResult">
+    <div class="back" @click="back">
       <i class="icon-back"></i>
     </div>
-    <div class="switch-wrapper">
-      <switches :items="['我喜欢的', '最近播放']" v-model="curentIndex"></switches>
+    <div class="switches-wrapper">
+      <switches :items="['我喜欢的', '最近播放']" v-model="currentIndex"></switches>
     </div>
-    <div class="play-btn">
-      <i-icon-play></i-icon-play>
+    <div class="play-btn" v-if="currentList && currentList.length" @click="random">
+      <i class="icon-play"></i>
       <span class="text">随机播放全部</span>
     </div>
     <div class="list-wrapper">
       <scroll class="list-scroll" v-if="currentIndex === 0">
         <div class="list-inner">
-          <song-list :songs="favoriteList"></song-list>
+          <song-list :songs="favoriteList" @select="selectSong"></song-list>
         </div>
       </scroll>
       <scroll class="list-scroll" v-if="currentIndex === 1">
         <div class="list-inner">
-          <song-list :songs="playHistory"></song-list>
+          <song-list :songs="playHistory" @select="selectSong"></song-list>
         </div>
       </scroll>
     </div>
@@ -29,7 +29,7 @@
 import Scroll from '../components/wrap-scroll/index'
 import switches from '../components/base/switches/switches'
 import songList from '../components/base/song-list/song-list'
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'user-center',
   components: {
@@ -43,7 +43,28 @@ export default {
     }
   },
   computed: {
+    noResult() {
+      return this.currentIndex === 0 ? !(this.favoriteList && this.favoriteList.length) : !(this.playHistory && this.playHistory.length)
+    },
+    noResultText() {
+      return this.currentIndex === 0 ? '暂无收藏歌曲' : '暂无播放历史'
+    },
+    currentList() {
+      return this.currentIndex === 0 ? this.favoriteList : this.playHistory
+    },
     ...mapState(['favoriteList', 'playHistory'])
+  },
+  methods: {
+    back() {
+      this.$router.back()
+    },
+    selectSong({ song }) {
+      this.addSong(song)
+    },
+    random() {
+      this.randomPlay(this.currentList)
+    },
+    ...mapActions(['addSong', 'randomPlay'])
   }
 }
 </script>
@@ -79,7 +100,7 @@ export default {
     box-sizing: border-box;
     width: 135px;
     padding: 7px 0;
-    margin: 0 auto;
+    margin: 20px auto;
     text-align: center;
     border: 1px solid $color-text-l;
     color: $color-text-l;
